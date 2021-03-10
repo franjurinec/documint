@@ -1,5 +1,4 @@
-![Documint Banner](https://user-images.githubusercontent.com/15126801/110492903-ccb83f80-80f2-11eb-9a5a-7b78278f9d6a.png)
-
+![Documint Banner](https://user-images.githubusercontent.com/15126801/110640276-ec15a200-81b0-11eb-8c90-bd446af4fdf4.png)
 
 # About
 Documint is a cross-platform application for writing and managing your project documentation. 
