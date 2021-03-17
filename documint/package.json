@@ -1,0 +1,22 @@
+{
+  "name": "documint",
+  "version": "0.0.1",
+  "description": "Cross-platform documentation tool.",
+  "main": "app/main/main.js",
+  "repository": "https://github.com/franjurinec/documint",
+  "author": "Fran Jurinec",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc && electron ."
+  },
+  "devDependencies": {
+    "@types/pug": "^2.0.4",
+    "electron": "^12.0.1",
+    "electron-builder": "^22.10.5",
+    "typescript": "^4.2.3"
+  },
+  "dependencies": {
+    "pug": "^3.0.2"
+  }
+}
