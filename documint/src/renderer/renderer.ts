@@ -1,10 +1,11 @@
 import * as pug from 'pug'
 import { promises as fs } from 'fs'
+import * as path from 'path'
 
 async function loadMain() {
     let root = document.getElementById('root')
     let files = await fs.readdir('resources/docs')
-    if (root) root.innerHTML = pug.renderFile('views/pages/main.pug', { files: files })
+    if (root) root.innerHTML = pug.renderFile(path.join(__dirname, '../../views/pages/main.pug'), { files: files })
 }
 
 export async function openDoc(ref: string) {
