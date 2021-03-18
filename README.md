@@ -12,6 +12,7 @@ The project is located in the _documint_ directory in the root of the repostitor
 `styles` - contains **CSS** styles (possibly replaced with a framework TBD)  
 `resources` - contains static resources  
 (`app`) - created with `yarn build`, contains .js files compiled from `src`  
+(`dist`) - created with `yarn dist`, contains compiled binaries according to the build config in `package.json`  
 
 # License
 This project is licenced under the [MIT License](https://github.com/franjurinec/documint/blob/main/LICENSE).
