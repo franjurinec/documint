@@ -8,8 +8,11 @@ yarn-error.log*
 # Dependency directories
 /node_modules
 
-# Compiled scripts
+# Compiled Typescript
 /app
+
+# Compiled SASS
+/styles
 
 # Compiled app
 /dist

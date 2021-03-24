@@ -11,7 +11,7 @@ function createWindow () {
   })
 
   win.maximize()
-  win.loadFile(path.join(app.getAppPath(), 'views/index.html'))
+  win.loadFile(path.join(app.getAppPath(), 'index.html'))
   win.webContents.openDevTools()
 }
 
@@ -27,12 +27,4 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow()
   }
-})
-
-
-// Exposed functions
-
-ipcMain.handle('readDoc', async (ref) => {
-  console.log('Try')
-  
 })

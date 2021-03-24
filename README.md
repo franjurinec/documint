@@ -8,10 +8,15 @@ Documint is a cross-platform application for writing and managing your project d
 The project is located in the _documint_ directory in the root of the repostitory.
 
 `src` - contains main logic in **typescript**  
-`views` - contains **pug** layout components (.pug) and _index.html_ base file that is loaded into electron  
-`styles` - contains **CSS** styles (possibly replaced with a framework TBD)  
+`src/main` - contains 'main' Electron script [.ts]  
+`src/renderer` - contains 'renderer' Electron script [.ts]  
+`src/layouts` - contains React layout components [.tsx]  
+
+`sass` - contains **SASS** styles [.sass, .css]  
 `resources` - contains static resources  
+
 (`app`) - created with `yarn build`, contains .js files compiled from `src`  
+(`styles`) - created with `yarn build`, contains `style.css` compiled from `sass`  
 (`dist`) - created with `yarn dist`, contains compiled binaries according to the build config in `package.json`  
 
 # License

@@ -58,7 +58,7 @@ button:focus {
     outline: none;
 }
 
-#root {
+#app {
     display: grid;
     grid-template-columns: 15% 15% 40% 15% 15%;
     height: 80%;
