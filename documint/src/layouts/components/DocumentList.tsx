@@ -22,7 +22,7 @@ class DocumentList extends React.Component<any, DocListState> {
 
     render() {
         return (
-            <nav id="sidebar-left" className="documentList">
+            <nav className="DocumentList">
                 {this.state.files.map(file => <button key={file}>{file}</button>)}
             </nav>
         )
