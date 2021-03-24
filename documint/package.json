@@ -20,7 +20,7 @@
       "./app/**",
       "./views/**",
       "./styles/**",
-      "./resources/**"
+      "./static/**"
     ],
     "extraResources": {
       "from": "./resources",

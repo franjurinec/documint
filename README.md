@@ -13,11 +13,21 @@ The project is located in the _documint_ directory in the root of the repostitor
 `src/layouts` - contains **React** layout components [.tsx]  
 
 `sass` - contains **SASS** styles [.sass, .css]  
-`resources` - contains static resources  
+`static` - contains static files (`index.html`, fonts, etc.)  
+
+`resources` - contains additional resources, included in `dist/resources` when packaging app
+
+The following directories are generated when building or packaging the app
 
 (`app`) - created with `yarn build`, contains .js files compiled from `src`  
 (`styles`) - created with `yarn build`, contains `style.css` compiled from `sass`  
-(`dist`) - created with `yarn dist`, contains compiled binaries according to the build config in `package.json`  
+(`dist`) - created with `yarn dist`, contains packaged app binaries
+
+## Usage
+
+`yarn build` - compiles SASS and TypeScript source code into CSS and JavaScript  
+`yarn start` - performs `build` and starts Electron app  
+`yarn dist` - performs `build` and creates platform-specific Electron binaries for distribution (distribution config defined in `package.json > "build"`)  
 
 # License
 This project is licenced under the [MIT License](https://github.com/franjurinec/documint/blob/main/LICENSE).
