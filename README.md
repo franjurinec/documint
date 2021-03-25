@@ -25,7 +25,7 @@ The following directories are generated when building or packaging the app
 
 ## Usage
 
-`yarn build` - compiles SASS and TypeScript source code into CSS and JavaScript  
+`yarn build` - compiles SASS into CSS (`/sass` -> `/style`) and TypeScript into JavaScript (`/src` -> `/app`)  
 `yarn start` - performs `build` and starts Electron app  
 `yarn dist` - performs `build` and creates platform-specific Electron binaries for distribution (distribution config defined in `package.json > "build"`)  
 
