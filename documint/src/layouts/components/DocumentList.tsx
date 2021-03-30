@@ -1,32 +1,40 @@
 import React from 'react'
 import { promises as fs } from 'fs'
 
-interface DocListState {
-    files: string[]
+interface DoocumentListProps {
+  openFile: (file: string) => void
 }
 
-class DocumentList extends React.Component<any, DocListState> {
-    constructor(props: any) {
-        super(props)
-        this.state = {
-            files: []
+interface DoocumentListState {
+  openFile: (file: string) => void,
+  files: string[]
+}
+
+class DocumentList extends React.Component<DoocumentListProps, DoocumentListState> {
+  constructor(props: DoocumentListProps) {
+    super(props)
+    this.state = {
+      openFile: props.openFile,
+      files: []
+    }
+  }
+
+  async componentDidMount() {
+    let fileList = await fs.readdir('resources/docs')
+    this.setState({
+      files: fileList
+    })
+  }
+
+  render() {
+    return (
+      <nav className="DocumentList">
+        {
+          this.state.files.map(file => <button key={file} onClick={() => this.state.openFile(file)}>{file}</button>)
         }
-    }
-
-    async componentDidMount() {
-        let fileList = await fs.readdir('resources/docs')
-        this.setState({
-            files: fileList
-        })
-    }
-
-    render() {
-        return (
-            <nav className="DocumentList">
-                {this.state.files.map(file => <button key={file}>{file}</button>)}
-            </nav>
-        )
-    }
+      </nav>
+    )
+  }
 }
 
 export default DocumentList
