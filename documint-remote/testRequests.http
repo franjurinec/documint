@@ -1,0 +1,29 @@
+### Invalid auth /token request
+POST http://localhost:41360/auth/token HTTP/1.1
+content-type: application/json
+
+{
+    "user": "test user",
+    "password": "invalidpassword"
+}
+
+### Valid auth /token request
+POST http://localhost:41360/auth/token HTTP/1.1
+content-type: application/json
+
+{
+    "user": "test user",
+    "password": "password"
+}
+
+### Valid auth /me check
+GET http://localhost:41360/auth/me HTTP/1.1
+X-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidGVzdCB1c2VyIiwiaWF0IjoxNjE3ODIzODIxLCJleHAiOjE2MTg0Mjg2MjF9.VWQALidryAleAfmiG0WfeuNt8Q7IN3UrA-mytBJWxwc
+
+### Valid document /me check
+GET http://localhost:41360/doc/me HTTP/1.1
+X-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidGVzdCB1c2VyIiwiaWF0IjoxNjE3ODIzODIxLCJleHAiOjE2MTg0Mjg2MjF9.VWQALidryAleAfmiG0WfeuNt8Q7IN3UrA-mytBJWxwc
+
+
+### Invalid document /me check
+GET http://localhost:41360/doc/me HTTP/1.1

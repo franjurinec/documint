@@ -1,0 +1,15 @@
+{
+  "name": "documint-remote",
+  "version": "0.0.1",
+  "description": "Remote repository host for Documint.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Fran Jurinec",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1"
+  }
+}
