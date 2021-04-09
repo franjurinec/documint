@@ -34,7 +34,7 @@ The following directories are generated when building or packaging the app
 
 ## Remote Host App
 
-The client app project is located in the `documint` directory in the root of the repostitory.
+The remote host app project is located in the `documint-remote` directory in the root of the repostitory.
 
 `index.js` - entry point for project, **Express.js** app setup  
 `/routes` - Express routes  
