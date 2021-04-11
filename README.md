@@ -1,4 +1,4 @@
-![Documint Banner](https://user-images.githubusercontent.com/15126801/112904525-5b641f00-90e9-11eb-9cc2-2942d9c88b2b.png)
+![Documint Banner](https://github.com/franjurinec/documint/blob/main/extras/design/graphics/Documint%20Banner.png)
 
 
 # About
