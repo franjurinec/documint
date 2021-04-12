@@ -31,9 +31,7 @@ export const FileNav = () => {
 
     return (
         <nav className="FileNav">
-            {
-                state.files.map(file => <button key={file} onClick={() => onOpenFile(file)}>{file}</button>)
-            }
+            {state.files.map(file => <button key={file} onClick={() => onOpenFile(file)}>{file}</button>)}
         </nav>
     )
 }
