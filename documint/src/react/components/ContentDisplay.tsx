@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
-import {ProjectState} from '../../redux/reducers/projectReducer'
+import { GlobalState } from '../../redux/reducer'
 
 export const ContentDisplay = () => {
-    const htmlContent = useSelector<ProjectState, ProjectState["displayedContent"]>((state) => state.displayedContent)
+    const htmlContent = useSelector<GlobalState, GlobalState["displayedContent"]>((state) => state.displayedContent)
     
     return (
         <div className="ContentDisplay" dangerouslySetInnerHTML={{ __html: htmlContent }}>

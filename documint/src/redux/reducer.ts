@@ -1,6 +1,6 @@
-import { Action } from "../actions/projectActions"
+import { Action } from "./actions"
 
-export interface ProjectState {
+export interface GlobalState {
     displayedContent: string,
     files: string[]
 }
@@ -10,7 +10,7 @@ const initialState = {
     files: []
 }
 
-export const projectReducer = (state: ProjectState = initialState, action: Action) => {
+export const projectReducer = (state: GlobalState = initialState, action: Action) => {
     switch (action.type) {
         case "SET_CONTENT":
             return { ...state, displayedContent: action.payload }

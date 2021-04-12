@@ -1,4 +1,4 @@
 import { createStore } from 'redux'
-import { projectReducer } from './reducers/projectReducer'
+import { projectReducer } from './reducer'
 
 export const store = createStore(projectReducer)

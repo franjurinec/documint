@@ -1,5 +1,7 @@
-import { app, ipcMain, BrowserWindow } from 'electron'
+import { app, BrowserWindow } from 'electron'
 import * as path from 'path'
+
+// Minimal ELectron setup
 
 function createWindow () {
   const win = new BrowserWindow({
