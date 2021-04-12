@@ -3,7 +3,7 @@
 @use "colors"
 
 html
-	font-family: 'Roboto Mono'
+	font-family: "Helvetica Neue", "Helvetica"
 
 iframe
 	all: unset
@@ -22,24 +22,43 @@ button
 	&:focus
 		outline: none
 
-.App
-	display: grid
-	grid-template-columns: 15% 15% 40% 15% 15%
-	height: 80%
-	padding-top: 5%
 
-.DocumentList
-	grid-column: 2
+// REACT COMPONENT STYLES
+
+.App
+	// Define grid for static UI elements
+	display: grid
+	grid-template-columns: 1fr 70em 1fr
+	grid-template-rows: 3em 1fr
+	grid-template-areas: "Header Header Header" "LeftNav Content RightNav"
+
+	width: 100vw
+	height: 100vh
+	
+	background-color: colors.$shade-1
+
+.Header
+	grid-area: Header
+	background-color: colors.$dark-green
+
+.FileNav
+	// Grid defined in .App
+	grid-area: LeftNav
+
+	//Nav list styling
 	display: flex
 	flex-direction: column
 	align-items: center
 	gap: 1rem
 
-#content-view
-	grid-column: 3
-	margin-inline: 5%
-	padding: 5%
-	box-shadow: 0px 0px 10px gainsboro
+.ContentDisplay
+	// Grid defined in .App
+	grid-area: Content
 
-#sidebar-right
-	grid-column: 4
+	padding: 3.5em
+	background-color: colors.$white
+	overflow-y: auto
+
+.InnerNav
+	// Grid defined in .App
+	grid-area: RightNav

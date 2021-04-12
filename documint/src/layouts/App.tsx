@@ -1,51 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { promises as fs } from 'fs'
 import MarkdownIt from 'markdown-it';
-import DocumentList from './components/DocumentList'
+import { FileNav}  from './components/FileNav';
+import { ContentDisplay}  from './components/ContentDisplay';
+import { InnerNav}  from './components/InnerNav';
+import { Header}  from './components/Header';
 
 const md = new MarkdownIt();
 
-interface AppState {
+interface AppProps {
   htmlContent: string;
 }
 
-class App extends React.Component<any, AppState> {
+export const App = () => {
+  const [state, setState] = useState<AppProps>({ htmlContent: "<p>No open document.</p>" });
 
-  constructor(props: any) {
-    super(props)
-    this.state = {
-      htmlContent: "No open document."
-    }
-  }
-
-  async openFile(file: string) {
+  const openFile = async (file: String) => {
+    console.log("Attempting to display file: " + file)
     let htmlString = await fs.readFile('resources/docs/' + file, 'utf-8')
       .then(markdownString => md.render(markdownString))
-
-    this.setState({
+    setState({
       htmlContent: htmlString
     })
   }
 
-  async getFileASHTML(file: string): Promise<{ __html: string; } | undefined> {
-    if (!file) {
-      return {
-        __html: 'No file open.'
-      }
-    } else {
-
-    }
-  }
-
-  render() {
-    return (
-      <div className="App"> 
-        <DocumentList openFile={(file: string) => this.openFile(file)} />
-        <div id="content-view" dangerouslySetInnerHTML={{__html: this.state.htmlContent}}></div>
-        <nav id="sidebar-right"></nav>
-      </div>
-    )
-  }
+  return (<div className="App">
+    <Header />
+    <FileNav openFile={(file: string) => openFile(file)} />
+    <ContentDisplay htmlContent={state.htmlContent} />
+    <InnerNav />
+  </div>)
 }
-
-export default App;
