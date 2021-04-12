@@ -2,12 +2,16 @@ import { Action } from "./actions"
 
 export interface GlobalState {
     displayedContent: string,
-    files: string[]
+    files: string[],
+    projectOpen: boolean
+    projectName: string
 }
 
 const initialState = {
     displayedContent: "<p>No project is open.</p>",
-    files: []
+    files: [],
+    projectOpen: false,
+    projectName: ""
 }
 
 export const projectReducer = (state: GlobalState = initialState, action: Action) => {
@@ -16,6 +20,8 @@ export const projectReducer = (state: GlobalState = initialState, action: Action
             return { ...state, displayedContent: action.payload }
         case "LOAD_FILES":
             return {...state, files: action.payload}
+        case "SET_PROJECT":
+            return {...state, projectName: action.payload, projectOpen: true}
         default:
             return state
     }

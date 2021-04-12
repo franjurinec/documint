@@ -4,6 +4,7 @@ import MarkdownIt from 'markdown-it';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadFiles, setContent } from '../../redux/actions';
 import { GlobalState } from '../../redux/reducer';
+
 const md = new MarkdownIt();
 
 export const FileNav = () => {

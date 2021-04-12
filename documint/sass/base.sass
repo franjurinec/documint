@@ -39,7 +39,7 @@ button
 
 .Header
 	grid-area: Header
-	background-color: colors.$dark-green
+	background-color: colors.$mint-green
 
 .FileNav
 	// Grid defined in .App
@@ -62,3 +62,26 @@ button
 .InnerNav
 	// Grid defined in .App
 	grid-area: RightNav
+
+.Welcome
+	// Grid defined in .App
+	grid-area: 2 / 1 / span 1 / span 3
+
+	display: flex
+	flex-direction: column
+	padding-top: 10vh
+
+	background-color: colors.$white
+
+	& img
+		height: 20vh
+
+	& div
+		display: contents
+
+.hero-text
+	text-align: center
+	margin: 0
+	font-size: 10vh
+	color: colors.$shade-3
+		
