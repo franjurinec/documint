@@ -1,21 +1,21 @@
 import React, { useState } from 'react'
 import { promises as fs } from 'fs'
 import MarkdownIt from 'markdown-it';
-import { useDispatch } from 'react-redux';
-import { setContent } from '../../redux/actions/projectActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadFiles, setContent } from '../../redux/actions/projectActions';
+import { ProjectState } from '../../redux/reducers/projectReducer';
 const md = new MarkdownIt();
 
-interface FileNavState {
-    files: string[]
-}
-
 export const FileNav = () => {
-    const [state, setState] = useState<FileNavState>({
-        files: []
-    })
 
+    // Store file list into global context
     const dispatch = useDispatch()
+    fs.readdir('resources/docs').then(files => dispatch(loadFiles(files)))
 
+    // Use file list from global context
+    const files = useSelector<ProjectState, ProjectState["files"]>(state => state.files)
+
+    // Update currently open content in global context
     const onOpenFile = async (fileName: string) => {
         console.log("Attempting to display file: " + fileName)
 
@@ -25,13 +25,9 @@ export const FileNav = () => {
         dispatch(setContent(htmlString))
     }
 
-    fs.readdir('resources/docs').then(files => setState({
-        files: files
-    }))
-
     return (
         <nav className="FileNav">
-            {state.files.map(file => <button key={file} onClick={() => onOpenFile(file)}>{file}</button>)}
+            {files.map(file => <button key={file} onClick={() => onOpenFile(file)}>{file}</button>)}
         </nav>
     )
 }
