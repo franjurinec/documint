@@ -13,7 +13,8 @@ The client app project is located in the `documint` directory in the root of the
 `src` - contains main logic in **TypeScript**  
 `src/main` - contains 'main' **Electron** script [.ts]  
 `src/renderer` - contains 'renderer' **Electron** script [.ts]  
-`src/layouts` - contains **React** layout components [.tsx]  
+`src/react` - contains **React** layout components [.tsx]  
+`src/redux` - contains **Redux** components (store, actions, reducers, etc...) [.ts]  
 
 `sass` - contains **SASS** styles [.sass, .css]  
 `static` - contains static files (`index.html`, fonts, etc.)  
