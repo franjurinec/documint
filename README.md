@@ -31,7 +31,7 @@ The following directories are generated when building or packaging the app
 
 `yarn build` - compiles TypeScript into JavaScript (`/src` -> `/app`) and SASS into CSS (`/sass` -> `/style`)    
 `yarn start` - performs `build` and starts Electron app  
-`yarn dist` - performs `build` and creates platform-specific Electron binaries for distribution (distribution config defined in `package.json > "build"`)  
+`yarn dist` - performs `build` and creates platform-specific Electron binaries for distribution (config defined in `package.json > "build"`)  
 
 ## Remote Host App
 
