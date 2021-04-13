@@ -1,5 +1,8 @@
 @use "normalize"
 @use "fonts"
+@use "./font-awesome/fontawesome"
+@use "./font-awesome/regular"
+@use "./font-awesome/solid"
 @use "colors"
 
 html
@@ -38,8 +41,26 @@ button
 	background-color: colors.$shade-1
 
 .Header
+	// Grid defined in .App
 	grid-area: Header
+
+	display: flex
+	justify-content: flex-end
+	align-content: center
+	padding-left: 0.75em
+	padding-right: 0.75em
+
 	background-color: colors.$mint-green
+	-webkit-app-region: drag
+
+.WindowControls
+	-webkit-app-region: no-drag
+	display: flex
+	align-items: center
+	column-gap: 0.5em
+	& i
+		height: fit-content
+		font-size: 1.5em
 
 .FileNav
 	// Grid defined in .App
@@ -73,11 +94,11 @@ button
 
 	background-color: colors.$white
 
-	& img
-		height: 20vh
+.hero-container
+	display: contents
 
-	& div
-		display: contents
+.hero-icon
+	height: 20vh
 
 .hero-text
 	text-align: center

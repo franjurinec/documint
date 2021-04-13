@@ -5,13 +5,15 @@ export interface GlobalState {
     files: string[],
     projectOpen: boolean
     projectName: string
+    windowMaximized: boolean
 }
 
 const initialState = {
     displayedContent: "<p>No project is open.</p>",
     files: [],
     projectOpen: false,
-    projectName: ""
+    projectName: "",
+    windowMaximized: true
 }
 
 export const projectReducer = (state: GlobalState = initialState, action: Action) => {
@@ -22,6 +24,8 @@ export const projectReducer = (state: GlobalState = initialState, action: Action
             return {...state, files: action.payload}
         case "SET_PROJECT":
             return {...state, projectName: action.payload, projectOpen: true}
+        case "SET_MAXIMIZED":
+            return {...state, windowMaximized: action.payload}
         default:
             return state
     }
