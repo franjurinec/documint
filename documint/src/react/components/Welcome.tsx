@@ -1,4 +1,5 @@
 import React from 'react';
+import { ProjectSelector } from './ProjectSelector';
 
 export const Welcome = () => (
     <div className="Welcome">
@@ -6,6 +7,6 @@ export const Welcome = () => (
             <img className="hero-icon" src="../static/graphics/logo.svg" alt="Documint Logo"></img>
             <p className="hero-text">Documint</p>
         </div>
-        <p>Hi, welcome to Documint! Please select a project below. <i className="fas fa-adjust"></i></p>
+        <ProjectSelector />
     </div>
 )

@@ -17,7 +17,7 @@ function createWindow () {
 
   win.maximize()
   win.loadFile(path.join(app.getAppPath(), 'static/index.html'))
-  // win.webContents.openDevTools()
+  win.webContents.openDevTools()
 }
 
 app.whenReady().then(createWindow)
