@@ -6,8 +6,8 @@ import * as path from 'path'
 function createWindow () {
   const win = new BrowserWindow({
     frame: false,
-    minWidth: 1500,
-    minHeight: 800,
+    minWidth: 800,
+    minHeight: 600,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
