@@ -33,7 +33,7 @@ iframe
 .App
 	// Define grid for static UI elements
 	display: grid
-	grid-template-columns: 1fr 50vw 1fr
+	grid-template-columns: 1fr 55vw 1fr
 	grid-template-rows: 2em 1fr
 	grid-template-areas: "Header Header Header" "LeftNav Content RightNav"
 
@@ -82,7 +82,6 @@ iframe
 	& > span
 		color: colors.$shade-3
 		padding: 0.25em
-		width: 10em
 		text-align: end
 		@include unselectable
 		&:hover
@@ -127,3 +126,14 @@ iframe
 	margin: 0
 	font-size: 10vh
 	color: colors.$shade-3
+
+// Scrollbar
+::-webkit-scrollbar 
+	width: 0.5em
+
+::-webkit-scrollbar-track
+	background-color: transparent
+
+::-webkit-scrollbar-thumb
+	background: colors.$mint-green
+	border-radius: 0.5em
