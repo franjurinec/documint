@@ -29,12 +29,12 @@ export const WindowControls = () => {
 
     return (
         <span className="WindowControls">
-            <i className="fas fa-window-minimize" onClick={() => minimize()}></i>
+            <i className="far fa-window-minimize" onClick={() => minimize()}></i>
             {windowMaximized 
-            ? <i className="fas fa-window-restore" onClick={() => restore()}></i>
-            : <i className="fas fa-window-maximize" onClick={() => maximize()}></i>
+            ? <i className="far fa-window-restore" onClick={() => restore()}></i>
+            : <i className="far fa-window-maximize" onClick={() => maximize()}></i>
             }
-            <i className="fas fa-window-close" onClick={() => close()}></i>
+            <i className="far fa-window-close" onClick={() => close()}></i>
         </span>
     )
 }

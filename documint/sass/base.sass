@@ -4,6 +4,7 @@
 @use "./font-awesome/regular"
 @use "./font-awesome/solid"
 @use "colors"
+@use "sass:color"
 
 html
 	font-family: "Helvetica Neue", "Helvetica"
@@ -32,7 +33,7 @@ button
 	// Define grid for static UI elements
 	display: grid
 	grid-template-columns: 1fr 70em 1fr
-	grid-template-rows: 3em 1fr
+	grid-template-rows: 2em 1fr
 	grid-template-areas: "Header Header Header" "LeftNav Content RightNav"
 
 	width: 100vw
@@ -60,7 +61,10 @@ button
 	column-gap: 0.5em
 	& i
 		height: fit-content
-		font-size: 1.5em
+		font-size: 1.2em
+		color: color.adjust(colors.$mint-green, $lightness: -20%)
+		&:hover
+			color: color.adjust(colors.$mint-green, $lightness: -10%)
 
 .FileNav
 	// Grid defined in .App
@@ -94,12 +98,14 @@ button
 
 	background-color: colors.$white
 
+
+// Additional custom styles
+
+// Welcome screen hero
 .hero-container
 	display: contents
-
 .hero-icon
 	height: 20vh
-
 .hero-text
 	text-align: center
 	margin: 0
