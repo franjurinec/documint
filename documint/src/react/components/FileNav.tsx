@@ -20,7 +20,7 @@ export const FileNav = () => {
 
     return (
         <nav className="FileNav">
-            {files.map(file => <button key={file} onClick={() => onOpenFile(file)}>{file}</button>)}
+            {files.map(file => <span key={file} onClick={() => onOpenFile(file)}>{file}</span>)}
         </nav>
     )
 }

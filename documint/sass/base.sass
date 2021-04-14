@@ -6,25 +6,26 @@
 @use "colors"
 @use "sass:color"
 
+
+// SASS Mixins
+
+// Unselectable
+@mixin unselectable
+	-webkit-touch-callout: none
+	-webkit-user-select: none
+	-khtml-user-select: none
+	-moz-user-select: none
+	-ms-user-select: none
+	user-select: none
+
+
 html
 	font-family: "Helvetica Neue", "Helvetica"
 
 iframe
 	all: unset
 
-button
-	display: flex
-	justify-content: center
-	align-items: center
-	height: 2rem
-	width: 80%
-	padding-top: 1rem
-	padding-bottom: 1rem
-	border: none
-	border-radius: 1rem
-	background: gainsboro
-	&:focus
-		outline: none
+
 
 
 // REACT COMPONENT STYLES
@@ -32,13 +33,13 @@ button
 .App
 	// Define grid for static UI elements
 	display: grid
-	grid-template-columns: 1fr 70em 1fr
+	grid-template-columns: 1fr 50vw 1fr
 	grid-template-rows: 2em 1fr
 	grid-template-areas: "Header Header Header" "LeftNav Content RightNav"
 
 	width: 100vw
 	height: 100vh
-	
+
 	background-color: colors.$shade-1
 
 .Header
@@ -72,9 +73,21 @@ button
 
 	//Nav list styling
 	display: flex
+	height: fit-content
 	flex-direction: column
-	align-items: center
-	gap: 1rem
+	align-items: flex-end
+	margin-right: 0.5em
+	margin-top: 0.5em
+
+	& > span
+		color: colors.$shade-3
+		padding: 0.25em
+		width: 10em
+		text-align: end
+		@include unselectable
+		&:hover
+			color: colors.$shade-2
+			
 
 .ContentDisplay
 	// Grid defined in .App
@@ -98,6 +111,9 @@ button
 
 	background-color: colors.$white
 
+.ProjectSelector
+	display: flex
+	justify-content: center
 
 // Additional custom styles
 
@@ -111,4 +127,3 @@ button
 	margin: 0
 	font-size: 10vh
 	color: colors.$shade-3
-		
