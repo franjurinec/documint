@@ -1,20 +1,19 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { loadFiles, setContent } from '../../redux/actions';
+import { setContent } from '../../redux/actions';
 import { GlobalState } from '../../redux/reducer';
-import { getFileList, readMarkdownFileAsHTML } from '../../utils/fileHandler';
+import { readMarkdownFileAsHTML } from '../../utils/fileHandler';
+
 
 export const FileNav = () => {
     // Redux hooks (global context)
     const files = useSelector<GlobalState, GlobalState["files"]>(state => state.files)
+    const projectName = useSelector<GlobalState, GlobalState["projectName"]>(state => state.projectName)
     const dispatch = useDispatch()
-
-    // Store file list into global context
-    getFileList().then(files => dispatch(loadFiles(files)))
 
     // Update currently open content in global context
     const onOpenFile = (fileName: string) => {
-        readMarkdownFileAsHTML('resources/docs/' + fileName)
+        readMarkdownFileAsHTML(projectName, fileName)
             .then(htmlContent => dispatch(setContent(htmlContent)))
     }
 

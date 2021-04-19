@@ -1,18 +1,22 @@
 import { Action } from "./actions"
 
 export interface GlobalState {
-    displayedContent: string,
+    projects: string[]
+    projectOpen: boolean,
+    projectName: string,
     files: string[],
-    projectOpen: boolean
-    projectName: string
+    openFile: string,
+    displayedContent: string,
     windowMaximized: boolean
 }
 
 const initialState = {
-    displayedContent: "<p>No project is open.</p>",
-    files: [],
+    projects: [],
     projectOpen: false,
     projectName: "",
+    files: [],
+    openFile: "",
+    displayedContent: "<p>No project is open.</p>",
     windowMaximized: true
 }
 
@@ -21,11 +25,17 @@ export const projectReducer = (state: GlobalState = initialState, action: Action
         case "SET_CONTENT":
             return { ...state, displayedContent: action.payload }
         case "LOAD_FILES":
-            return {...state, files: action.payload}
+            return { ...state, files: action.payload }
         case "SET_PROJECT":
-            return {...state, projectName: action.payload, projectOpen: true}
+            return { ...state, projectName: action.payload }
+        case "OPEN_PROJECT":
+            return { ...state, projectOpen: true }
         case "SET_MAXIMIZED":
-            return {...state, windowMaximized: action.payload}
+            return { ...state, windowMaximized: action.payload }
+        case "SET_OPEN_FILE":
+            return { ...state, openFile: action.payload }
+        case "LOAD_PROJECTS":
+            return { ...state, projects: action.payload }
         default:
             return state
     }

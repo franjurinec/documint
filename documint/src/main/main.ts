@@ -1,7 +1,11 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 import * as path from 'path'
 
 // Minimal ELectron setup
+
+ipcMain.on('request-userdata-path', (event) => {
+  event.returnValue = app.getPath('userData')
+})
 
 function createWindow () {
   const win = new BrowserWindow({
