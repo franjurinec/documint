@@ -1,28 +1,33 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { loadFiles, openProject, setProject } from '../../redux/actions'
+import { setProjectList, setFilesList, setProject } from '../../redux/actions'
 import { GlobalState } from '../../redux/reducer'
-import { getFileList } from '../../utils/fileHandler'
+import { getFileList, getProjectList } from '../../utils/fileHandler'
 
 export const ProjectSelector = () => {
     const dispatch = useDispatch()
     const projects = useSelector<GlobalState, GlobalState["projects"]>(state => state.projects)
-    const projectName = useSelector<GlobalState, GlobalState["projectName"]>(state => state.projectName)
+
+    const [selectedProject, setSelectedProject] = useState<string>("")
+
+    console.log('Rendering project selector with projects: ' + projects)
+
+    useEffect(() => {
+        getProjectList().then(projectList => {
+            dispatch(setProjectList(projectList))
+            setSelectedProject(projectList[0])
+        })
+    }, []);
 
     const onOpenProject = () => {
-        getFileList(projectName).then(files => dispatch(loadFiles(files)))
-        dispatch(openProject())
+        console.log('Opening project: ' + selectedProject)
+        dispatch(setProject(selectedProject))
+        getFileList(selectedProject).then(files => dispatch(setFilesList(files)))
     }
-
-    const onSelectProject = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        dispatch(setProject(e.currentTarget.value))
-    }
-
-    if (projects.length > 0) dispatch(setProject(projects[0]))
 
     return (
         <div className="ProjectSelector">
-            <select onChange={onSelectProject}>
+            <select onChange={(e) => setSelectedProject(e.currentTarget.value)}>
                 {projects.map(project => <option key={project} value={project}>{project}</option>)}
             </select>
             <button onClick={onOpenProject}>Open</button>
