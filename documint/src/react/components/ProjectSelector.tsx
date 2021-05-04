@@ -10,8 +10,6 @@ export const ProjectSelector = () => {
 
     const [selectedProject, setSelectedProject] = useState<string>("")
 
-    console.log('Rendering project selector with projects: ' + projects)
-
     useEffect(() => {
         getProjectList().then(projectList => {
             dispatch(setProjectList(projectList))
@@ -20,7 +18,6 @@ export const ProjectSelector = () => {
     }, []);
 
     const onOpenProject = () => {
-        console.log('Opening project: ' + selectedProject)
         dispatch(setProject(selectedProject))
         getFileList(selectedProject).then(files => dispatch(setFilesList(files)))
     }
