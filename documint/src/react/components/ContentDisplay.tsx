@@ -14,11 +14,11 @@ export const ContentDisplay = () => {
             //if (editMode) {
             //    readMarkdownFile(projectName, openFile).then(mdContent => setContent(mdContent))
             //} else {
+                console.log('Setting content to:' + openFile)
                 readMarkdownFileAsHTML(projectName, openFile).then(htmlContent => setContent(htmlContent))
             //}
         }
-            
-    })
+    }, [openFile])
     
     return (
         <div className="ContentDisplay" dangerouslySetInnerHTML={{ __html: content }}>

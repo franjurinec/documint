@@ -3,7 +3,7 @@ import { FileNav } from './components/FileNav';
 import { ContentDisplay } from './components/ContentDisplay';
 import { InnerNav } from './components/InnerNav';
 import { Header } from './components/Header';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { GlobalState } from '../redux/reducer';
 import { Welcome } from './components/Welcome';
 
