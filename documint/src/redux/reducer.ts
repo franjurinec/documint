@@ -6,7 +6,6 @@ export interface GlobalState {
     projectName: string,
     files: string[],
     openFile: string,
-    displayedContent: string,
     windowMaximized: boolean
 }
 
@@ -16,14 +15,11 @@ const initialState = {
     projectName: "",
     files: [],
     openFile: "",
-    displayedContent: "<p>No project is open.</p>",
     windowMaximized: true
 }
 
 export const projectReducer = (state: GlobalState = initialState, action: Action) => {
     switch (action.type) {
-        case "SET_CONTENT":
-            return { ...state, displayedContent: action.payload }
         case "LOAD_FILES":
             return { ...state, files: action.payload }
         case "SET_PROJECT":

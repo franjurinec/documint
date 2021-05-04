@@ -1,12 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { GlobalState } from '../../redux/reducer'
+import { readMarkdownFile, readMarkdownFileAsHTML } from '../../utils/fileHandler'
 
 export const ContentDisplay = () => {
-    const htmlContent = useSelector<GlobalState, GlobalState["displayedContent"]>((state) => state.displayedContent)
+    const projectName = useSelector<GlobalState, GlobalState["projectName"]>(state => state.projectName)
+    const openFile = useSelector<GlobalState, GlobalState["openFile"]>((state) => state.openFile)
+
+    const [content, setContent] = useState<string>("<p>No file is open.<p>")
+
+    useEffect(() => {
+        if (projectName && openFile) {
+            //if (editMode) {
+            //    readMarkdownFile(projectName, openFile).then(mdContent => setContent(mdContent))
+            //} else {
+                readMarkdownFileAsHTML(projectName, openFile).then(htmlContent => setContent(htmlContent))
+            //}
+        }
+            
+    })
     
     return (
-        <div className="ContentDisplay" dangerouslySetInnerHTML={{ __html: htmlContent }}>
+        <div className="ContentDisplay" dangerouslySetInnerHTML={{ __html: content }}>
         </div>
     )
 }

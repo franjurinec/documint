@@ -1,23 +1,16 @@
-type SetContentAction = { type: "SET_CONTENT", payload: string }
 type LoadFilesAction = { type: "LOAD_FILES", payload: string[] }
 type SetProjectAction = { type: "SET_PROJECT", payload: string }
 type MaximizeWindowAction = { type: "SET_MAXIMIZED", payload: boolean }
 type SetOpenFileAction = { type: "SET_OPEN_FILE", payload: string }
 type LoadProjectsAction = { type: "LOAD_PROJECTS", payload: string[] }
-type OpenProjectAction = {type: "OPEN_PROJECT" }
+type OpenProjectAction = { type: "OPEN_PROJECT" }
 
-export type Action = SetContentAction
-    | LoadFilesAction
+export type Action = LoadFilesAction
     | SetProjectAction
     | MaximizeWindowAction
     | SetOpenFileAction
     | LoadProjectsAction
     | OpenProjectAction
-
-export const setContent = (content: string): Action => ({
-    type: "SET_CONTENT",
-    payload: content
-})
 
 export const loadFiles = (files: string[]): Action => ({
     type: "LOAD_FILES",
