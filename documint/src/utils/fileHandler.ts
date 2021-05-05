@@ -12,6 +12,11 @@ export async function readMarkdownFile(projectName: string, fileName: string) {
     return fs.readFile(filePath, 'utf-8')
 }
 
+export async function saveMarkdownFile(projectName: string, fileName: string, content: string) {
+    const filePath = path.join(getFilesPath(projectName), fileName);
+    return fs.writeFile(filePath, content);
+}
+
 export async function getFileList(projectName: string) {
     return fs.readdir(getFilesPath(projectName))
 }
