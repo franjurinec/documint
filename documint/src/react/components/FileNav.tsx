@@ -8,9 +8,15 @@ export const FileNav = () => {
     const files = useSelector<GlobalState, GlobalState["files"]>(state => state.files)
     const dispatch = useDispatch()
 
+    const onFileSelect = (value: any) => {
+        if (typeof value === 'number') {
+            dispatch(setOpenFile(files[value]))
+        }
+    }
+
     return (
         <nav className="FileNav">
-            {files.map(file => <span key={file} onClick={() => dispatch(setOpenFile(file))}>{file}</span>)}
+            {files.map((file, index) => <span key={index} onClick={() => onFileSelect(index)}>{file.name}</span>)}
         </nav>
     )
 }

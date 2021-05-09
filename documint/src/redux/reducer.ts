@@ -1,33 +1,34 @@
+import { Project, DocumentFile } from "../types/types"
 import { Action } from "./actions"
 
 export interface GlobalState {
-    projects: string[]
-    projectName: string,
-    files: string[],
-    openFile: string,
+    projects: Project[]
+    currentProject: Project | undefined,
+    files: DocumentFile[],
+    currentFile: DocumentFile | undefined,
     windowMaximized: boolean
 }
 
 const initialState = {
     projects: [],
-    projectName: "",
+    currentProject: undefined,
     files: [],
-    openFile: "",
+    currentFile: undefined,
     windowMaximized: true
 }
 
 export const projectReducer = (state: GlobalState = initialState, action: Action) => {
     switch (action.type) {
-        case "SET_FILES_LIST":
-            return { ...state, files: action.payload }
-        case "SET_PROJECT":
-            return { ...state, projectName: action.payload }
         case "SET_MAXIMIZED":
             return { ...state, windowMaximized: action.payload }
-        case "SET_OPEN_FILE":
-            return { ...state, openFile: action.payload }
         case "SET_PROJECTS_LIST":
             return { ...state, projects: action.payload }
+        case "SET_FILES_LIST":
+            return { ...state, files: action.payload }
+        case "SET_OPEN_PROJECT":
+            return { ...state, currentProject: action.payload }
+        case "SET_OPEN_FILE":
+            return { ...state, currentFile: action.payload }
         default:
             return state
     }

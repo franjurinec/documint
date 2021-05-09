@@ -1,36 +1,39 @@
-type LoadFilesAction = { type: "SET_FILES_LIST", payload: string[] }
-type SetProjectAction = { type: "SET_PROJECT", payload: string }
-type MaximizeWindowAction = { type: "SET_MAXIMIZED", payload: boolean }
-type SetOpenFileAction = { type: "SET_OPEN_FILE", payload: string }
-type setProjectListAction = { type: "SET_PROJECTS_LIST", payload: string[] }
+import { DocumentFile, Project } from "../types/types"
 
-export type Action = LoadFilesAction
-    | SetProjectAction
-    | MaximizeWindowAction
+
+type MaximizeWindowAction = { type: "SET_MAXIMIZED", payload: boolean }
+type SetFileListAction = { type: "SET_FILES_LIST", payload: DocumentFile[] }
+type SetOpenFileAction = { type: "SET_OPEN_FILE", payload: DocumentFile }
+type setProjectListAction = { type: "SET_PROJECTS_LIST", payload: Project[] }
+type SetOpenProjectAction = { type: "SET_OPEN_PROJECT", payload: Project }
+
+export type Action = MaximizeWindowAction
+    | SetFileListAction
     | SetOpenFileAction
     | setProjectListAction
+    | SetOpenProjectAction
 
-export const setFilesList = (files: string[]): Action => ({
+export const setFilesList = (files: DocumentFile[]): Action => ({
     type: "SET_FILES_LIST",
     payload: files
 })
 
-export const setProjectList = (projects: string[]): Action => ({
+export const setOpenFile = (fileName: DocumentFile): Action => ({
+    type: "SET_OPEN_FILE",
+    payload: fileName
+})
+
+export const setProjectList = (projects: Project[]): Action => ({
     type: "SET_PROJECTS_LIST",
     payload: projects
 })
 
-export const setProject = (projectName: string): Action => ({
-    type: "SET_PROJECT",
+export const setOpenProject = (projectName: Project): Action => ({
+    type: "SET_OPEN_PROJECT",
     payload: projectName
 })
 
 export const setWindowMaximized = (maximized: boolean): Action => ({
     type: "SET_MAXIMIZED",
     payload: maximized
-})
-
-export const setOpenFile = (fileName: string): Action => ({
-    type: "SET_OPEN_FILE",
-    payload: fileName
 })

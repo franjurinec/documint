@@ -4,33 +4,35 @@ import { GlobalState } from '../../redux/reducer'
 import { readMarkdownFile, readMarkdownFileAsHTML, saveMarkdownFile } from '../../utils/fileHandler'
 
 export const ContentDisplay = () => {
-    const projectName = useSelector<GlobalState, GlobalState["projectName"]>(state => state.projectName)
-    const openFile = useSelector<GlobalState, GlobalState["openFile"]>((state) => state.openFile)
+    const openFile = useSelector<GlobalState, GlobalState["currentFile"]>((state) => state.currentFile)
 
     const [content, setContent] = useState<string>("<p>No file is open.<p>")
     const [edit, setEdit] = useState<boolean>(false);
 
     useEffect(() => {
-        if (projectName && openFile) {
+        if (openFile) {
             setEdit(false)
-            readMarkdownFileAsHTML(projectName, openFile).then(htmlContent => setContent(htmlContent))
+            readMarkdownFileAsHTML(openFile).then(htmlContent => setContent(htmlContent))
         }
     }, [openFile])
 
     const onEdit = () => {
-        readMarkdownFile(projectName, openFile).then(mdContent => setContent(mdContent))
+        if (!openFile) return
+        readMarkdownFile(openFile).then(mdContent => setContent(mdContent))
         setEdit(true)
     }
 
     const onSave = () => {
-        saveMarkdownFile(projectName, openFile, content).then(() => {
-            readMarkdownFileAsHTML(projectName, openFile).then(htmlContent => setContent(htmlContent))
+        if (!openFile) return
+        saveMarkdownFile(openFile, content).then(() => {
+            readMarkdownFileAsHTML(openFile).then(htmlContent => setContent(htmlContent))
         })
         setEdit(false)
     }
 
     const onCancel = () => {
-        readMarkdownFileAsHTML(projectName, openFile).then(htmlContent => setContent(htmlContent))
+        if (!openFile) return
+        readMarkdownFileAsHTML(openFile).then(htmlContent => setContent(htmlContent))
         setEdit(false)
     }
     

@@ -5,12 +5,12 @@ import { InnerNav } from './components/InnerNav';
 import { Header } from './components/Header';
 import { useSelector } from 'react-redux';
 import { GlobalState } from '../redux/reducer';
-import { Welcome } from './components/Welcome';
+import { ProjectSelector } from './components/ProjectSelector';
 
 export const App = () => {
-    const projectName = useSelector<GlobalState, GlobalState["projectName"]>(state => state.projectName)
+    const currentProject = useSelector<GlobalState, GlobalState["currentProject"]>(state => state.currentProject)
 
-    if (projectName !== "") {
+    if (currentProject !== undefined) {
         return (
             <div className="App">
                 <Header />
@@ -23,7 +23,13 @@ export const App = () => {
         return (
             <div className="App">
                 <Header />
-                <Welcome />
+                <div className="Welcome">
+                    <div className="hero-container">
+                        <img className="hero-icon" src="../static/graphics/logo.svg" alt="Documint Logo"></img>
+                        <p className="hero-text">Documint</p>
+                    </div>
+                    <ProjectSelector />
+                </div>
             </div>
         )
     }
