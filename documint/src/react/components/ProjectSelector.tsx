@@ -32,11 +32,11 @@ export const ProjectSelector = () => {
     }
 
     return (
-        <div className="ProjectSelector">
-            <select onChange={(e) => onSelectProject(e.currentTarget.value)}>
+        <div className="ProjectSelector flex flex-row">
+            <select className="outline-none" onChange={(e) => onSelectProject(e.currentTarget.value)}>
                 {projects.map((project, index) => <option key={index} value={index}>{project.name}</option>)}
             </select>
-            <button onClick={onOpenProject}>Open</button>
+            <div className="bg-mint text-white rounded py-1 px-2 m-2 select-none hover:bg-opacity-60 active:bg-opacity-80" onClick={onOpenProject}>Open</div>
         </div>
     )
 }

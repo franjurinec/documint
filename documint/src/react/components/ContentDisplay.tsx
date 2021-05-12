@@ -45,7 +45,7 @@ export const ContentDisplay = () => {
                     </div>
                 </div>
 
-                <div className="ContentFrame prose p-8 bg-white rounded shadow h-9/10 overflow-y-auto" dangerouslySetInnerHTML={{ __html: content }}>
+                <div className="ContentFrame prose max-w-full p-8 bg-white rounded shadow h-9/10 overflow-y-auto" dangerouslySetInnerHTML={{ __html: content }}>
                 </div>
             </div>
         )
@@ -61,10 +61,8 @@ export const ContentDisplay = () => {
                     </div>
                 </div>
 
-                <div className="ContentFrame prose p-8 bg-white rounded shadow h-9/10 overflow-y-auto">
-                    <textarea value={content} onChange={(e) => setContent(e.target.value)}>
-                    </textarea>
-                </div>
+                <textarea className="ContentFrame w-full p-8 bg-white rounded shadow h-9/10 overflow-y-auto outline-none resize-none" value={content} onChange={(e) => setContent(e.target.value)}>
+                </textarea>
             </div>
         )
     }

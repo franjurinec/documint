@@ -30,12 +30,12 @@ export const WindowControls = () => {
     return (
         // @ts-ignore (WebkitAppRegion is electron-specific)
         <div className="WindowControls h-full" style={{WebkitAppRegion: 'no-drag'}}>
-            <i className="far fa-window-minimize h-full py-2 px-3 hover:bg-opacity-10 hover:bg-white" onClick={() => minimize()}></i>
+            <i className="far fa-window-minimize h-full py-2 px-3 hover:bg-opacity-30 hover:bg-white" onClick={() => minimize()}></i>
             {windowMaximized 
-            ? <i className="far fa-window-restore h-full py-2 px-3 hover:bg-opacity-10 hover:bg-white" onClick={() => restore()}></i>
-            : <i className="far fa-window-maximize h-full py-2 px-3 hover:bg-opacity-10 hover:bg-white" onClick={() => maximize()}></i>
+            ? <i className="far fa-window-restore h-full py-2 px-3 hover:bg-opacity-30 hover:bg-white" onClick={() => restore()}></i>
+            : <i className="far fa-window-maximize h-full py-2 px-3 hover:bg-opacity-30 hover:bg-white" onClick={() => maximize()}></i>
             }
-            <i className="far fa-window-close h-full py-2 px-3 hover:bg-opacity-10 hover:bg-white" onClick={() => close()}></i>
+            <i className="far fa-window-close h-full py-2 px-3 hover:bg-opacity-30 hover:bg-white" onClick={() => close()}></i>
         </div>
     )
 }
