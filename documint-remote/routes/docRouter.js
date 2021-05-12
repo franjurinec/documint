@@ -12,7 +12,7 @@ router.post('/create', (req, res) => {
 
 })
 
-router.put('/update/:id', (req, res) => {
+router.put('/update/:id', async (req, res) => {
     let docId = req.params.id
     await fileHandler.updateFile(docId, req.body)
     res.send('Successfully updated!')
