@@ -15,8 +15,9 @@ export const FileNav = () => {
     }
 
     return (
-        <nav className="FileNav">
-            {files.map((file, index) => <span key={index} onClick={() => onFileSelect(index)}>{file.name}</span>)}
-        </nav>
+        <div className="FileNav w-1/6 max-h-full overflow-y-auto flex flex-col gap-2 p-2 pt-10 items-start">
+            <div className="text-lg font-medium select-none">Documents</div>
+            {files.map((file, index) => <span className="select-none hover:text-gray-400" key={index} onClick={() => onFileSelect(index)}>{file.name}</span>)}
+        </div>
     )
 }

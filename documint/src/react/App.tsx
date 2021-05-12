@@ -12,21 +12,23 @@ export const App = () => {
 
     if (currentProject !== undefined) {
         return (
-            <div className="App">
+            <div className="App bg-gray-50">
                 <Header />
-                <FileNav />
-                <ContentDisplay />
-                <InnerNav />
+                <div className="z-0 flex flex-row -mt-8 pt-8 h-full justify-center overflow-y-hidden">
+                    <FileNav />
+                    <ContentDisplay />
+                    <InnerNav />
+                </div>
             </div>
         )
     } else {
         return (
             <div className="App">
                 <Header />
-                <div className="Welcome">
+                <div className="Welcome flex flex-col items-center pt-60">
                     <div className="hero-container">
-                        <img className="hero-icon" src="../static/graphics/logo.svg" alt="Documint Logo"></img>
-                        <p className="hero-text">Documint</p>
+                        <img className="hero-icon max-h-96" src="../static/graphics/logo.svg" alt="Documint Logo"></img>
+                        <p className="hero-text text-9xl text-gray-400">Documint</p>
                     </div>
                     <ProjectSelector />
                 </div>

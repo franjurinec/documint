@@ -38,24 +38,30 @@ export const ContentDisplay = () => {
     
     if (!edit) {
         return (
-            <div className="ContentDisplay">
-                <div className="EditContent" onClick={onEdit}>
-                    <i className="fa fa-edit"></i>
+            <div className="ContentDisplay max-h-full w-2/5">
+                <div className="flex flex-row justify-end">
+                    <div className="bg-mint text-white rounded py-1 px-2 m-2 select-none hover:bg-opacity-60 active:bg-opacity-80" onClick={onEdit}>
+                        Edit
+                    </div>
                 </div>
-                <div className="ContentFrame" dangerouslySetInnerHTML={{ __html: content }}>
+
+                <div className="ContentFrame prose p-8 bg-white rounded shadow h-9/10 overflow-y-auto" dangerouslySetInnerHTML={{ __html: content }}>
                 </div>
             </div>
         )
     } else {
         return (
-            <div className="ContentDisplay">
-                <div className="EditContent" onClick={onSave}>
-                    <i className="fa fa-save"></i>
+            <div className="ContentDisplay max-h-full w-2/5">
+                <div className="flex flex-row justify-end">
+                    <div className="bg-mint text-white rounded py-1 px-2 m-2 select-none hover:bg-opacity-60 active:bg-opacity-80" onClick={onSave}>
+                        Save
+                    </div>
+                    <div className="bg-mint text-white rounded py-1 px-2 m-2 select-none hover:bg-opacity-60 active:bg-opacity-80" onClick={onCancel}>
+                        Cancel
+                    </div>
                 </div>
-                <div className="EditContent" onClick={onCancel}>
-                    <i className="fa fa-times"></i>
-                </div>
-                <div className="ContentFrame">
+
+                <div className="ContentFrame prose p-8 bg-white rounded shadow h-9/10 overflow-y-auto">
                     <textarea value={content} onChange={(e) => setContent(e.target.value)}>
                     </textarea>
                 </div>

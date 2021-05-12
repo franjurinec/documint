@@ -7,7 +7,8 @@
   "author": "Fran Jurinec",
   "license": "MIT",
   "scripts": {
-    "build": "sass sass/base.sass:styles/style.css & tsc",
+    "build": "tsc",
+    "generate-styles": "npx tailwindcss-cli@latest build -o ./styles/style.css",
     "start": "yarn build && electron .",
     "dist": "yarn build && electron-builder build"
   },
@@ -27,6 +28,7 @@
     }
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.4.0",
     "@types/markdown-it": "^12.0.1",
     "@types/node": "^14.14.35",
     "@types/react": "^17.0.3",
@@ -35,6 +37,7 @@
     "electron": "^12.0.1",
     "electron-builder": "^22.10.5",
     "sass": "^1.32.8",
+    "tailwindcss-cli": "^0.1.2",
     "typescript": "^4.2.3"
   },
   "dependencies": {
