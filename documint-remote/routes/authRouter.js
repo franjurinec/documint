@@ -6,7 +6,7 @@ router.post('/token', (req, res) => {
     console.log(req.body)
     if (req.body && req.body.password && req.body.user && req.body.password == config.password) {
         let token = jwt.sign({ user: req.body.user }, config.password, {
-            expiresIn: 7 * 86400 // 7 days
+            expiresIn: 86400 // 1 day
         })
         res.status(200).send({ auth: true, token: token })
     } else {

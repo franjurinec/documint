@@ -6,6 +6,7 @@ const docRouter = require('./routes/docRouter')
 const app = express()
 
 app.use(express.json())
+app.use(express.text())
 
 app.use('/auth', authRouter)
 app.use('/doc', docRouter)
