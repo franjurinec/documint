@@ -1,7 +1,7 @@
 import { DocumentFile, Project } from '../types/types'
 import { promises as fs } from 'fs'
 import { htmlFromMD } from './markdownHandler'
-import { getFilesPath, projectsPath } from './pathHandler'
+import { userDataPath } from './pathHandler'
 import path from 'path'
 import { getRemoteFileList, readRemoteFile, updateRemoteFile } from './remoteHandler'
 
@@ -41,13 +41,26 @@ export async function getFileList(currentProject: Project) {
 }
 
 export async function getProjectList(): Promise<Project[]> {
-    await fs.mkdir(projectsPath, {recursive: true})
-    let projectNames = await fs.readdir(projectsPath)
-    return projectNames.map<Project>(projectName => { 
-        return {
-            name: projectName,
-            type: "LOCAL",
-            path: getFilesPath(projectName)
-        }
-    })
+    let projectsString = await fs.readFile(path.join(userDataPath, 'projects.json'), 'utf-8')
+    let projects: Project[] = JSON.parse(projectsString)
+    if (projects) 
+        return projects
+    else 
+        return []
+}
+
+export async function appendProjectsFile(project: Project) {
+    let projectsString = await fs.readFile(path.join(userDataPath, 'projects.json'), 'utf-8')
+    let projects: Project[] = JSON.parse(projectsString)
+    
+    if (!projects) {
+        projects = []
+    }
+
+    if (!projects.some(existingProj => existingProj.path === project.path)) {
+        projects.push(project)
+    }
+
+    let updatedProjectsString = JSON.stringify(projects)
+    await fs.writeFile(path.join(userDataPath, 'projects.json'), updatedProjectsString, 'utf-8')
 }

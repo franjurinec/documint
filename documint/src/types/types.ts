@@ -2,8 +2,6 @@ export type Project = {
     name: string,
     type: "LOCAL" | "REMOTE",
     path: string,
-    username?: string,
-    password?: string,
     token?: string,
 }
 

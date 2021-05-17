@@ -25,11 +25,7 @@ export const App = () => {
         return (
             <div className="App">
                 <Header />
-                <div className="Welcome flex flex-col items-center justify-center -mt-8 pt-8 h-full">
-                    <div className="hero-container">
-                        <img className="hero-icon max-h-64" src="../static/graphics/logo.svg" alt="Documint Logo"></img>
-                        <p className="hero-text text-9xl text-gray-400">Documint</p>
-                    </div>
+                <div className="z-0 flex flex-row -mt-8 pt-8 h-full justify-center overflow-y-hidden">
                     <ProjectSelector />
                 </div>
             </div>
