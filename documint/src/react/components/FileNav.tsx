@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { setOpenFile } from '../../redux/actions';
 import { GlobalState } from '../../redux/reducer';
@@ -6,7 +6,13 @@ import { GlobalState } from '../../redux/reducer';
 
 export const FileNav = () => {
     const files = useSelector<GlobalState, GlobalState["files"]>(state => state.files)
+    const currentFile = useSelector<GlobalState, GlobalState["currentFile"]>((state) => state.currentFile)
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        if (currentFile === undefined && files.length > 0)
+            dispatch(setOpenFile(files[0]))
+    },[files])
 
     const onFileSelect = (value: any) => {
         if (typeof value === 'number') {
