@@ -4,7 +4,7 @@ import { setProjectList, setFilesList, setOpenProject, addProjectToList } from '
 import { GlobalState } from '../../redux/reducer'
 import { Project } from '../../types/types'
 import { getDirectoryDialog } from '../../utils/dialogHandler'
-import { appendProjectsFile, getFileList, getProjectList } from '../../utils/fileHandler'
+import { appendProjectsFile, getFileList, getProjectList, removeFromProjectsFile } from '../../utils/fileHandler'
 import { getToken } from '../../utils/remoteHandler'
 import { Modal } from './Modal'
 
@@ -64,9 +64,9 @@ export const ProjectSelector = () => {
             </div>
 
             {/* List saved projects */}
-            <div className="flex flex-col gap-2 justify-center border-l border-mint p-10">
+            <div className="flex flex-col gap-2 justify-center border-l border-mint pl-10 py-10 w-96">
                 <div onClick={() => setShowAddProjectModal(true)}
-                    className="p-3 bg-mint rounded font-bold text-white text-center hover:bg-opacity-60 active:bg-opacity-80 w-96">
+                    className="p-3 bg-mint rounded font-bold text-white text-center hover:bg-opacity-60 active:bg-opacity-80">
                     <i className="fas fa-plus mr-1"></i>Add Project
                 </div>
                 {projects.map((project, index) => {
@@ -74,12 +74,16 @@ export const ProjectSelector = () => {
                         <div className="flex flex-col p-3 gap-1 bg-gray-200 rounded hover:bg-opacity-60 active:bg-opacity-80"
                             key={index}
                             onClick={() => onOpenProject(project)}>
-                            <div className="flex justify-between">
-                                <div>{project.name}</div>
+                            <div className="flex flex-row justify-between gap-2">
+                                <div className="flex-grow truncate">{project.name}</div>
                                 <div className="text-xs font-semibold">{project.type}</div>
                             </div>
-                            <div className="text-xs">{project.path}</div>
-
+                            <div className="flex flex-row justify-between gap-2">
+                                <div className="flex-grow text-xs truncate">{project.path}</div>
+                                <div className="text-gray-500 hover:text-gray-700"
+                                    onClick={(e) => {e.stopPropagation(); removeFromProjectsFile(project).then(updateProjectList)}}><i className="fas fa-trash"></i>
+                                </div>
+                            </div>
                         </div>
                     )
                 })}

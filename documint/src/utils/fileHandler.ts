@@ -64,3 +64,15 @@ export async function appendProjectsFile(project: Project) {
     let updatedProjectsString = JSON.stringify(projects)
     await fs.writeFile(path.join(userDataPath, 'projects.json'), updatedProjectsString, 'utf-8')
 }
+
+export async function removeFromProjectsFile(project: Project) {
+    let projectsString = await fs.readFile(path.join(userDataPath, 'projects.json'), 'utf-8')
+    let projects: Project[] = JSON.parse(projectsString)
+    
+    if (!projects) return
+
+    projects = projects.filter(existingProj => existingProj.path !== project.path)
+
+    let updatedProjectsString = JSON.stringify(projects)
+    await fs.writeFile(path.join(userDataPath, 'projects.json'), updatedProjectsString, 'utf-8')
+}
