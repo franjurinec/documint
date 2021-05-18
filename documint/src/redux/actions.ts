@@ -5,7 +5,7 @@ type MaximizeWindowAction = { type: "SET_MAXIMIZED", payload: boolean }
 type SetFileListAction = { type: "SET_FILES_LIST", payload: DocumentFile[] }
 type SetOpenFileAction = { type: "SET_OPEN_FILE", payload: DocumentFile }
 type SetProjectListAction = { type: "SET_PROJECTS_LIST", payload: Project[] }
-type SetOpenProjectAction = { type: "SET_OPEN_PROJECT", payload: Project }
+type SetOpenProjectAction = { type: "SET_OPEN_PROJECT", payload: Project|undefined }
 type AddProjectToListAction = { type: "ADD_PROJECT_TO_LIST", payload: Project }
 
 export type Action = MaximizeWindowAction
@@ -35,7 +35,7 @@ export const addProjectToList = (project: Project): Action => ({
     payload: project
 })
 
-export const setOpenProject = (projectName: Project): Action => ({
+export const setOpenProject = (projectName: Project|undefined): Action => ({
     type: "SET_OPEN_PROJECT",
     payload: projectName
 })

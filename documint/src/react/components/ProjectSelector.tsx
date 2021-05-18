@@ -56,7 +56,7 @@ export const ProjectSelector = () => {
     }
 
     return (
-        <div className="ProjectSelector flex flex-row items-center justify-center -mt-8 pt-8 h-full w-full gap-10 select-none">
+        <div className="flex flex-row items-center justify-center h-full w-full gap-10 select-none">
             {/* HERO BANNER */}
             <div className="hidden flex-col xl:flex">
                 <img className="hero-icon max-h-64" src="../static/graphics/logo.svg" alt="Documint Logo"></img>

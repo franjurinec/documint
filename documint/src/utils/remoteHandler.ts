@@ -66,3 +66,11 @@ export async function updateRemoteFile(file: DocumentFile, content: string) {
         })
     })
 }
+
+export async function deleteRemoteFile(file: DocumentFile) {
+    if (file.project.token === undefined) {
+        return false
+    }
+
+    return false
+}

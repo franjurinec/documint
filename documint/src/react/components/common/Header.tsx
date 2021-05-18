@@ -42,7 +42,7 @@ const WindowControls = () => {
             ? <i className="far fa-window-restore h-full py-2 px-3 hover:bg-opacity-30 hover:bg-white" onClick={() => restore()}></i>
             : <i className="far fa-window-maximize h-full py-2 px-3 hover:bg-opacity-30 hover:bg-white" onClick={() => maximize()}></i>
             }
-            <i className="far fa-window-close h-full py-2 px-3 hover:bg-opacity-30 hover:bg-white" onClick={() => close()}></i>
+            <i className="far fa-window-close h-full py-2 px-3 hover:bg-opacity-80 hover:bg-red-400" onClick={() => close()}></i>
         </div>
     )
 }

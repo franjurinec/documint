@@ -3,7 +3,7 @@ import { promises as fs } from 'fs'
 import { htmlFromMD } from './markdownHandler'
 import { userDataPath } from './pathHandler'
 import path from 'path'
-import { getRemoteFileList, readRemoteFile, updateRemoteFile } from './remoteHandler'
+import { deleteRemoteFile, getRemoteFileList, readRemoteFile, updateRemoteFile } from './remoteHandler'
 
 export async function readMarkdownFile(file: DocumentFile) {
     if (file.project.type === 'REMOTE') {
@@ -25,7 +25,9 @@ export async function readMarkdownFileAsHTML(file: DocumentFile) {
     return readMarkdownFile(file).then(fileContent => htmlFromMD(fileContent))
 }
 
-export async function getFileList(currentProject: Project) {
+export async function getFileList(currentProject: Project|undefined) {
+    if (currentProject === undefined) return []
+
     if (currentProject.type === 'REMOTE') {
         return await getRemoteFileList(currentProject)
     } else {
@@ -75,4 +77,12 @@ export async function removeFromProjectsFile(project: Project) {
 
     let updatedProjectsString = JSON.stringify(projects)
     await fs.writeFile(path.join(userDataPath, 'projects.json'), updatedProjectsString, 'utf-8')
+}
+
+export async function deleteFile(file: DocumentFile) {
+    if (file.project.type === 'REMOTE') {
+        return await deleteRemoteFile(file)
+    } else {
+        return await fs.rm(file.path)
+    }  
 }
