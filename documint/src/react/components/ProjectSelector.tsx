@@ -6,7 +6,7 @@ import { Project } from '../../types/types'
 import { getDirectoryDialog } from '../../utils/dialogHandler'
 import { appendProjectsFile, getFileList, getProjectList, removeFromProjectsFile } from '../../utils/fileHandler'
 import { getToken } from '../../utils/remoteHandler'
-import { Modal } from './Modal'
+import { Modal } from './common/Modal'
 
 export const ProjectSelector = () => {
     const dispatch = useDispatch()
@@ -58,13 +58,13 @@ export const ProjectSelector = () => {
     return (
         <div className="ProjectSelector flex flex-row items-center justify-center -mt-8 pt-8 h-full w-full gap-10 select-none">
             {/* HERO BANNER */}
-            <div className="flex flex-col">
+            <div className="hidden flex-col xl:flex">
                 <img className="hero-icon max-h-64" src="../static/graphics/logo.svg" alt="Documint Logo"></img>
                 <p className="hero-text text-9xl text-gray-400">Documint</p>
             </div>
 
             {/* List saved projects */}
-            <div className="flex flex-col gap-2 justify-center border-l border-mint pl-10 py-10 w-96">
+            <div className="flex flex-col gap-2 justify-center xl:border-l border-mint pl-10 py-10 w-96">
                 <div onClick={() => setShowAddProjectModal(true)}
                     className="p-3 bg-mint rounded font-bold text-white text-center hover:bg-opacity-60 active:bg-opacity-80">
                     <i className="fas fa-plus mr-1"></i>Add Project

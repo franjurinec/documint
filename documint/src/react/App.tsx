@@ -2,7 +2,7 @@ import React from 'react';
 import { FileNav } from './components/FileNav';
 import { ContentDisplay } from './components/ContentDisplay';
 import { InnerNav } from './components/InnerNav';
-import { Header } from './components/Header';
+import { Header } from './components/common/Header';
 import { useSelector } from 'react-redux';
 import { GlobalState } from '../redux/reducer';
 import { ProjectSelector } from './components/ProjectSelector';

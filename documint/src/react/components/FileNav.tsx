@@ -12,7 +12,7 @@ export const FileNav = () => {
     useEffect(() => {
         if (currentFile === undefined && files.length > 0)
             dispatch(setOpenFile(files[0]))
-    },[files])
+    }, [files])
 
     const onFileSelect = (value: any) => {
         if (typeof value === 'number') {
@@ -23,7 +23,11 @@ export const FileNav = () => {
     return (
         <div className="FileNav w-1/6 max-h-full overflow-y-auto flex flex-col gap-2 p-2 pt-10 items-start">
             <div className="text-lg font-medium select-none">Documents</div>
-            {files.map((file, index) => <div className="select-none w-full hover:text-gray-400" key={index} onClick={() => onFileSelect(index)}>{file.name}</div>)}
+            {files.map((file, index) => {
+                return (
+                    <div className="select-none w-full hover:text-gray-400" key={index} onClick={() => onFileSelect(index)}>{file.name}</div>
+                )
+            })}
         </div>
     )
 }
