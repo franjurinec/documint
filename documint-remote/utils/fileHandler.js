@@ -4,12 +4,7 @@ let fileList = []
 fs.readdir('./documents').then(fileNames => fileList = fileNames)
 
 const updateFileList = () => {
-    fs.readdir('./documents').then(fileNames => {
-        fileNames.forEach(fileName => {
-            if (!fileList.includes(fileName)) 
-                fileList.push(fileName)
-        })
-    })
+    fs.readdir('./documents').then(fileNames => fileList = fileNames)
 }
 
 const getFiles = () => {
@@ -24,6 +19,16 @@ const updateFile = async (index, content) => {
     await fs.writeFile('./documents/' + fileList[index], content)
 }
 
+const createFile = async (name, content) => {
+    await fs.writeFile('./documents/' + name, content)
+    updateFileList()
+}
+
+const deleteFile = async (index) => {
+    await fs.rm('./documents/' + fileList[index])
+    updateFileList()
+}
+
 module.exports = {
-    getFiles, getFile, updateFileList, updateFile
+    getFiles, getFile, updateFileList, updateFile, createFile, deleteFile
 }

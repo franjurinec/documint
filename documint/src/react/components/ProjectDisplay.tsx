@@ -1,15 +1,19 @@
+import path from 'path';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { setFilesList, setOpenFile, setOpenProject } from '../../redux/actions';
 import { GlobalState } from '../../redux/reducer';
 import { DocumentFile } from '../../types/types';
-import { deleteFile, getFileList, readMarkdownFile, readMarkdownFileAsHTML, saveMarkdownFile } from '../../utils/fileHandler';
+import { addFile, deleteFile, getFileList, readMarkdownFile, readMarkdownFileAsHTML, saveMarkdownFile } from '../../utils/fileHandler';
+import { htmlFromMD } from '../../utils/markdownHandler';
+import { Context } from './common/Context';
 
 export const ProjectDisplay = () => {
     const currentFile = useSelector<GlobalState, GlobalState["currentFile"]>((state) => state.currentFile)
 
     const [content, setContent] = useState<string>("<p>No file is open.<p>")
     const [edit, setEdit] = useState<boolean>(false);
+    const [livePreview, setLivePreview] = useState<boolean>(false)
 
     useEffect(() => {
         if (currentFile) {
@@ -41,38 +45,49 @@ export const ProjectDisplay = () => {
     // RENDERING
 
     let fileControls = !edit ? (
-        <div className="flex flex-row justify-end">
-            <div className="bg-mint text-white rounded py-1 px-2 m-2 select-none hover:bg-opacity-60 active:bg-opacity-80" onClick={onEdit}>
+        <div className="flex flex-row gap-2 justify-end border-b border-gray-900 mx-4 py-4">
+            <div className="bg-mint text-white rounded py-1 px-2 select-none hover:bg-opacity-60 active:bg-opacity-80" onClick={onEdit}>
                 Edit
                 </div>
         </div>
     ) : (
-        <div className="flex flex-row justify-end">
-            <div className="bg-mint text-white rounded py-1 px-2 m-2 select-none hover:bg-opacity-60 active:bg-opacity-80" onClick={onSave}>
+        <div className="flex flex-row gap-2 justify-end border-b border-gray-900 mx-4 py-4">
+            <div className="bg-mint text-white rounded py-1 px-2 select-none hover:bg-opacity-60 active:bg-opacity-80" onClick={() => setLivePreview(!livePreview)}>
+                Toggle preview
+                </div>
+            <div className="bg-mint text-white rounded py-1 px-2 select-none hover:bg-opacity-60 active:bg-opacity-80" onClick={onSave}>
                 Save
                 </div>
-            <div className="bg-mint text-white rounded py-1 px-2 m-2 select-none hover:bg-opacity-60 active:bg-opacity-80" onClick={onCancel}>
+            <div className="bg-mint text-white rounded py-1 px-2 select-none hover:bg-opacity-60 active:bg-opacity-80" onClick={onCancel}>
                 Cancel
                 </div>
         </div>
     )
 
     let frame = !edit ? (
-        <div className="prose max-w-full p-8 bg-white rounded shadow-lg h-9/10 overflow-y-auto" dangerouslySetInnerHTML={{ __html: content }}>
+        <div className="prose max-w-full w-full flex-grow overflow-y-auto p-8" dangerouslySetInnerHTML={{ __html: content }}>
         </div>
     ) : (
-        <textarea className="ContentFrame w-full p-8 bg-white rounded shadow-lg h-9/10 overflow-y-auto outline-none resize-none" value={content} onChange={(e) => setContent(e.target.value)}>
+        <textarea className="w-full flex-grow overflow-y-auto outline-none resize-none p-8" value={content} onChange={(e) => setContent(e.target.value)}>
         </textarea>
     )
 
     return (
-        <div className="flex flex-row justify-center w-full h-full px-4 bg-gray-100">
+        <div className="flex flex-row justify-center w-full h-full bg-gray-100">
             <FileNav />
-            <div className="max-h-full max-w-screen-lg flex-grow">
+            <div className="max-w-screen-lg flex-grow bg-white flex flex-col">
                 {fileControls}
                 {frame}
             </div>
-            <InnerNav />
+
+            {(livePreview && edit)
+                ? (
+                    <div className="prose max-w-screen-lg flex-grow bg-white px-8 pt-8 overflow-y-auto" dangerouslySetInnerHTML={{ __html: htmlFromMD(content) }}>
+                    </div>
+                ) : (
+                    <InnerNav />
+                )}
+
         </div>
     )
 }
@@ -83,6 +98,23 @@ const FileNav = () => {
     const files = useSelector<GlobalState, GlobalState["files"]>(state => state.files)
     const currentFile = useSelector<GlobalState, GlobalState["currentFile"]>(state => state.currentFile)
     const currentProject = useSelector<GlobalState, GlobalState["currentProject"]>(state => state.currentProject)
+
+    // New file context menu state
+    const [showAddContext, setShowAddContext] = useState<boolean>(false);
+    const [newFileName, setNewFileName] = useState<string>("")
+    const onAddFile = () => {
+        if (!currentProject) return
+
+        let newDoc: DocumentFile = {
+            name: newFileName + '.md',
+            project: currentProject,
+            path: path.join(currentProject.path, newFileName)
+        }
+
+        setShowAddContext(false)
+        addFile(newDoc).then(() => getFileList(currentProject).then(files => dispatch(setFilesList(files))))
+        setNewFileName("")
+    }
 
     useEffect(() => {
         if ((currentFile === undefined || !files.includes(currentFile)) && files.length > 0)
@@ -96,14 +128,13 @@ const FileNav = () => {
     }
 
     const onFileDelete = (file: DocumentFile) => {
-
         deleteFile(file)
             .then(() => getFileList(currentProject)
                 .then(files => dispatch(setFilesList(files))))
     }
 
     return (
-        <div className="w-72 flex-shrink-0 max-h-full overflow-y-auto flex flex-col gap-2 p-2 pt-10 items-start">
+        <div className="w-72 flex-shrink-0 max-h-full overflow-y-auto flex flex-col gap-2 p-2 pt-4 ml-4 items-start">
             <div className="text-sm select-none hover:text-gray-400" onClick={() => dispatch(setOpenProject(undefined))}>
                 Back
             </div>
@@ -113,9 +144,10 @@ const FileNav = () => {
                         <i className="fas fa-server mr-2"></i>
                     }
                     {currentProject !== undefined ? currentProject.name : "Undefined"}
-                    </div>
-                
-                <div className="text-mint hover:text-mint-dark">
+                </div>
+
+                <div className="text-mint hover:text-mint-dark"
+                    onClick={() => setShowAddContext(true)}>
                     <i className="fas fa-plus"></i>
                 </div>
             </div>
@@ -123,9 +155,9 @@ const FileNav = () => {
                 return (
                     <div className="flex flex-row gap-1 select-none w-full items-center" key={index} >
                         <div className="hover:text-gray-400 flex-grow truncate" onClick={() => onFileSelect(index)}>{file.name}</div>
-                        <div className="text-gray-300 hover:text-gray-400">
+                        {/*<div className="text-gray-300 hover:text-gray-400">
                             <i className="fas fa-pen"></i>
-                        </div>
+                        </div>*/}
                         <div className="text-gray-300 hover:text-gray-400"
                             onClick={() => onFileDelete(file)}>
                             <i className="fas fa-trash"></i>
@@ -133,6 +165,14 @@ const FileNav = () => {
                     </div>
                 )
             })}
+
+            <Context show={showAddContext} onClose={() => { setShowAddContext(false); setNewFileName("") }}>
+                <input className="outline-none w-60 border-b" type="text" value={newFileName} placeholder="File Name" onChange={(e) => setNewFileName(e.target.value)}></input>
+                <div className="select-none bg-mint text-white rounded py-1 px-2 w-32 hover:bg-opacity-60 active:bg-opacity-80 text-center"
+                    onClick={() => onAddFile()}>
+                    Add
+                    </div>
+            </Context>
         </div>
     )
 }

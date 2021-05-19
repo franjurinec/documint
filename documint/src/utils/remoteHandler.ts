@@ -72,5 +72,29 @@ export async function deleteRemoteFile(file: DocumentFile) {
         return false
     }
 
+    await fetch(file.project.path + '/doc/delete/' + file.path, {
+        headers: new Headers({
+            'content-type': 'text/plain',
+            'X-access-token': file.project.token
+        })
+    })
+
+    return false
+}
+
+export async function addRemoteFile(file: DocumentFile) {
+    if (file.project.token === undefined) {
+        return false
+    }
+
+    await fetch(file.project.path + '/doc/create/' + encodeURI(file.name), {
+        method: 'POST',
+        body: "",
+        headers: new Headers({
+            'content-type': 'text/plain',
+            'X-access-token': file.project.token
+        })
+    })
+
     return false
 }
