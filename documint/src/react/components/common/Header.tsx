@@ -80,7 +80,9 @@ const ExportModal = (args: {show: boolean, onClose: () => void}) => {
                 </div>
                 <form className="flex flex-col gap-4 w-96">
                     <input className="border-b outline-none" type="text" placeholder="Title" value={exportConfig.title} onChange={(e) => onTitleChange(e)} />
+                    {/* HIDE UNUSED
                     <input className="border-b outline-none" type="text" placeholder="Color" value={exportConfig.color} onChange={(e) => onColorChange(e)} />
+                    */}
                     <div className="flex flex-row justify-between border-b w-96">
                         <input className="flex-grow outline-none" type="text" placeholder="Path" value={exportConfig.path} onChange={(e) => onPathChange(e)} />
                         <div className="text-gray-500 hover:text-gray-700"
