@@ -6,6 +6,7 @@ import { GlobalState } from '../../redux/reducer';
 import { DocumentFile } from '../../types/types';
 import { addFile, deleteFile, getFileList, readMarkdownFile, readMarkdownFileAsHTML, saveMarkdownFile } from '../../utils/fileHandler';
 import { htmlFromMD } from '../../utils/markdownHandler';
+import { searchFiles } from '../../utils/searchHandler';
 import { Context } from './common/Context';
 
 export const ProjectDisplay = () => {
@@ -99,6 +100,11 @@ const FileNav = () => {
     const currentFile = useSelector<GlobalState, GlobalState["currentFile"]>(state => state.currentFile)
     const currentProject = useSelector<GlobalState, GlobalState["currentProject"]>(state => state.currentProject)
 
+    useEffect(() => {
+        if ((currentFile === undefined || !files.includes(currentFile)) && files.length > 0)
+            dispatch(setOpenFile(files[0]))
+    }, [files])
+
     // New file context menu state
     const [showAddContext, setShowAddContext] = useState<boolean>(false);
     const [newFileName, setNewFileName] = useState<string>("")
@@ -116,10 +122,10 @@ const FileNav = () => {
         setNewFileName("")
     }
 
-    useEffect(() => {
-        if ((currentFile === undefined || !files.includes(currentFile)) && files.length > 0)
-            dispatch(setOpenFile(files[0]))
-    }, [files])
+
+    // Search context menu state
+    const [showSearchContext, setShowSearchContext] = useState<boolean>(false)
+
 
     const onFileSelect = (value: any) => {
         if (typeof value === 'number') {
@@ -144,6 +150,11 @@ const FileNav = () => {
                         <i className="fas fa-server mr-2"></i>
                     }
                     {currentProject !== undefined ? currentProject.name : "Undefined"}
+                </div>
+
+                <div className="text-gray-300 hover:text-gray-400"
+                    onClick={() => setShowSearchContext(true)}>
+                    <i className="fas fa-search"></i>
                 </div>
 
                 <div className="text-mint hover:text-mint-dark"
@@ -173,6 +184,8 @@ const FileNav = () => {
                     Add
                     </div>
             </Context>
+
+            <SearchContext show={showSearchContext} onClose={() => setShowSearchContext(false)} />
         </div>
     )
 }
@@ -181,3 +194,43 @@ const InnerNav = () => (
     <div className="w-72 max-h-full overflow-y-auto hidden flex-col items-end 2xl:flex">
     </div>
 )
+
+const SearchContext = (args: { show: boolean, onClose: () => void }) => {
+    const dispatch = useDispatch()
+
+    const files = useSelector<GlobalState, GlobalState["files"]>(state => state.files)
+
+    const [searchString, setSearchString] = useState<string>("")
+    const [searchResults, setSearchResults] = useState<DocumentFile[]>([])
+
+    useEffect(() => {
+        searchFiles(files, searchString).then(results => {
+            console.log(results)
+
+            let searchRes = results
+                .filter(e => e.titleMatches > 0 || e.contentMatches > 0)
+                .sort((e1, e2) => e2.titleMatches - e1.titleMatches || e2.contentMatches - e1.contentMatches)
+                .slice(0, 5)
+                .map(e => e.file)
+
+            setSearchResults(searchRes)
+        })
+    }, [searchString])
+
+    return (
+        <Context show={args.show} onClose={() => { args.onClose(); setSearchString("") }}>
+            <input className="outline-none w-60 border-b" type="text" value={searchString} placeholder="Search..." onChange={(e) => setSearchString(e.target.value)}></input>
+            <div className="flex flex-col gap-2">
+                {searchResults.map(file => {
+                    return (
+                        <div key={file.path + file.name} 
+                            className="select-none w-full px-4 py-2 rounded bg-gray-100 hover:bg-gray-200"
+                            onClick={() => {dispatch(setOpenFile(file)); args.onClose(); setSearchString("")}}>
+                            {file.name}
+                        </div>
+                    )
+                })}
+            </div>
+        </Context>
+    )
+}
