@@ -19,9 +19,10 @@ export async function exportProject(settings: ExportSettings) {
     let docsPath = path.join(exportPath, 'docs')
     let stylePath = path.join(exportPath, 'styles')
     let fontPath = path.join(exportPath, 'static', 'fonts', 'fa-webfonts')
+    let katexFontPath = path.join(exportPath, 'static', 'fonts', 'katex-fonts')
 
     let files = settings.files
-    let fileNames = files.map(file => file.name.slice(0, -3))
+    let fileNames = files.map(file => file.name)
     
     const renderFunction = pug.compileFile("static/export-chunks/page.pug")
 
@@ -33,6 +34,9 @@ export async function exportProject(settings: ExportSettings) {
 
     if (!existsSync(fontPath))
         await fs.mkdir(fontPath, { recursive: true })
+
+    if (!existsSync(katexFontPath))
+        await fs.mkdir(katexFontPath, { recursive: true })
 
     if (!existsSync(docsPath))
         await fs.mkdir(docsPath, { recursive: true })
@@ -47,8 +51,13 @@ export async function exportProject(settings: ExportSettings) {
         await fs.copyFile(path.join('static', 'fonts', 'fa-webfonts', file), path.join(fontPath, file))
     }))
 
+    let katexFontFiles = await fs.readdir(path.join('static', 'fonts', 'katex-fonts'))
+    await Promise.all(katexFontFiles.map(async file => {
+        await fs.copyFile(path.join('static', 'fonts', 'katex-fonts', file), path.join(katexFontPath, file))
+    }))
+
     await Promise.all(files.map(async file => {
-        let fileName = file.name.slice(0, -3)
+        let fileName = file.name
 
         const renderedHTML = renderFunction({
             projectTitle: settings.title,
