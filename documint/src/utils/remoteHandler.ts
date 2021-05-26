@@ -34,6 +34,7 @@ export async function getRemoteFileList(currentProject: Project) {
         return {
             name: fileName,
             project: currentProject,
+            category: undefined,
             path: String(index)
         }
     })

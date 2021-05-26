@@ -17,9 +17,11 @@ export const ProjectDisplay = () => {
     const [livePreview, setLivePreview] = useState<boolean>(false)
 
     useEffect(() => {
-        if (currentFile) {
+        if (currentFile !== undefined) {
             setEdit(false)
             readMarkdownFileAsHTML(currentFile).then(htmlContent => setContent(htmlContent))
+        } else {
+            setContent("No files.")
         }
     }, [currentFile])
 
@@ -49,7 +51,7 @@ export const ProjectDisplay = () => {
         <div className="flex flex-row gap-2 justify-end border-b border-gray-900 mx-4 py-4">
             <div className="bg-mint text-white rounded py-1 px-2 select-none hover:bg-opacity-60 active:bg-opacity-80" onClick={onEdit}>
                 Edit
-                </div>
+            </div>
         </div>
     ) : (
         <div className="flex flex-row gap-2 justify-end border-b border-gray-900 mx-4 py-4">
@@ -100,26 +102,54 @@ const FileNav = () => {
     const currentFile = useSelector<GlobalState, GlobalState["currentFile"]>(state => state.currentFile)
     const currentProject = useSelector<GlobalState, GlobalState["currentProject"]>(state => state.currentProject)
 
+    const [categoryFiles, setCategoryFiles] = useState(new Map<string, DocumentFile[]>())
+    const [uncategorisedFiles, setUncategorisedFiles] = useState<DocumentFile[]>([])
+
     useEffect(() => {
-        if ((currentFile === undefined || !files.includes(currentFile)) && files.length > 0)
+        if ((currentFile === undefined || !files.includes(currentFile)) && files.length > 0) {
             dispatch(setOpenFile(files[0]))
+        }
+
+        let uncategorisedFiles: DocumentFile[] = []
+        let categoryFiles = new Map<string, DocumentFile[]>()
+        files.forEach(file => {
+            if (file.category === undefined) {
+                uncategorisedFiles.push(file)
+            } else {
+                if (categoryFiles.has(file.category)) {
+                    categoryFiles.get(file.category)?.push(file)
+                } else {
+                    categoryFiles.set(file.category, [])
+                    categoryFiles.get(file.category)?.push(file)
+                }
+            }
+        })
+
+        setUncategorisedFiles(uncategorisedFiles)
+        setCategoryFiles(categoryFiles)
+
     }, [files])
 
     // New file context menu state
     const [showAddContext, setShowAddContext] = useState<boolean>(false);
     const [newFileName, setNewFileName] = useState<string>("")
+    const [newFileCategory, setNewFileCategory] = useState<string>("")
     const onAddFile = () => {
         if (!currentProject) return
 
         let newDoc: DocumentFile = {
-            name: newFileName + '.md',
+            name: newFileName,
             project: currentProject,
-            path: path.join(currentProject.path, newFileName)
+            category: newFileCategory === "" ? undefined : newFileCategory,
+            path: newFileCategory === "" 
+                ? path.join(currentProject.path, newFileName + '.md') 
+                : path.join(currentProject.path, newFileCategory, newFileName + '.md')
         }
 
         setShowAddContext(false)
         addFile(newDoc).then(() => getFileList(currentProject).then(files => dispatch(setFilesList(files))))
         setNewFileName("")
+        setNewFileCategory("")
     }
 
 
@@ -127,10 +157,8 @@ const FileNav = () => {
     const [showSearchContext, setShowSearchContext] = useState<boolean>(false)
 
 
-    const onFileSelect = (value: any) => {
-        if (typeof value === 'number') {
-            dispatch(setOpenFile(files[value]))
-        }
+    const onFileSelect = (file: DocumentFile) => {
+        dispatch(setOpenFile(file))
     }
 
     const onFileDelete = (file: DocumentFile) => {
@@ -141,10 +169,15 @@ const FileNav = () => {
 
     return (
         <div className="w-72 flex-shrink-0 max-h-full overflow-y-auto flex flex-col gap-2 p-2 pt-4 ml-4 items-start">
-            <div className="text-sm select-none hover:text-gray-400" onClick={() => dispatch(setOpenProject(undefined))}>
+            <div className="text-sm select-none hover:text-gray-400"
+                onClick={() => {
+                    dispatch(setOpenProject(undefined));
+                    dispatch(setFilesList([]));
+                    dispatch(setOpenFile(undefined))
+                }}>
                 Back
             </div>
-            <div className="flex flex-row select-none gap-1 w-full items-center text-lg pb-2 border-b border-gray-900">
+            <div className="flex flex-row select-none gap-2 w-full items-center text-lg pb-2 mb-4 border-b border-gray-900">
                 <div className="flex-grow font-medium">
                     {currentProject?.type == "REMOTE" &&
                         <i className="fas fa-server mr-2"></i>
@@ -152,20 +185,20 @@ const FileNav = () => {
                     {currentProject !== undefined ? currentProject.name : "Undefined"}
                 </div>
 
-                <div className="text-gray-300 hover:text-gray-400"
+                <div className="text-gray-400 hover:text-gray-600"
                     onClick={() => setShowSearchContext(true)}>
                     <i className="fas fa-search"></i>
                 </div>
 
-                <div className="text-mint hover:text-mint-dark"
+                <div className="text-gray-400 hover:text-gray-600"
                     onClick={() => setShowAddContext(true)}>
                     <i className="fas fa-plus"></i>
                 </div>
             </div>
-            {files.map((file, index) => {
+            {uncategorisedFiles.map((file) => {
                 return (
-                    <div className="flex flex-row gap-1 select-none w-full items-center" key={index} >
-                        <div className="hover:text-gray-400 flex-grow truncate" onClick={() => onFileSelect(index)}>{file.name}</div>
+                    <div className="flex flex-row gap-1 select-none w-full items-center" key={file.path + file.name} >
+                        <div className="hover:text-gray-400 flex-grow truncate" onClick={() => onFileSelect(file)}>{file.name}</div>
                         {/*<div className="text-gray-300 hover:text-gray-400">
                             <i className="fas fa-pen"></i>
                         </div>*/}
@@ -177,8 +210,15 @@ const FileNav = () => {
                 )
             })}
 
-            <Context show={showAddContext} onClose={() => { setShowAddContext(false); setNewFileName("") }}>
+            {Array.from(categoryFiles, ([category, files]) => {
+                return (
+                    <CategoryItem files={files} name={category} onFileDelete={onFileDelete} onFileSelect={onFileSelect} />
+                )
+            })}
+
+            <Context show={showAddContext} onClose={() => { setShowAddContext(false); setNewFileName(""); setNewFileCategory("") }}>
                 <input className="outline-none w-60 border-b" type="text" value={newFileName} placeholder="File Name" onChange={(e) => setNewFileName(e.target.value)}></input>
+                <input className="outline-none w-60 border-b" type="text" value={newFileCategory} placeholder="Category (optional)" onChange={(e) => setNewFileCategory(e.target.value)}></input>
                 <div className="select-none bg-mint text-white rounded py-1 px-2 w-32 hover:bg-opacity-60 active:bg-opacity-80 text-center"
                     onClick={() => onAddFile()}>
                     Add
@@ -188,6 +228,82 @@ const FileNav = () => {
             <SearchContext show={showSearchContext} onClose={() => setShowSearchContext(false)} />
         </div>
     )
+}
+
+type CategoryArgType = {
+    files: DocumentFile[],
+    name: string,
+    onFileSelect: (file: DocumentFile) => void,
+    onFileDelete: (file: DocumentFile) => void
+}
+
+const CategoryItem = (args: CategoryArgType) => {
+    const [collapsed, setCollapsed] = useState<boolean>(false)
+    
+    const dispatch = useDispatch()
+    const currentProject = useSelector<GlobalState, GlobalState["currentProject"]>(state => state.currentProject)
+
+    const [showAddContext, setShowAddContext] = useState<boolean>(false);
+    const [newFileName, setNewFileName] = useState<string>("")
+    const onAddFile = () => {
+        if (!currentProject) return
+
+        let newDoc: DocumentFile = {
+            name: newFileName,
+            project: currentProject,
+            category: args.name,
+            path: path.join(currentProject.path, args.name, newFileName + '.md')
+        }
+
+        setShowAddContext(false)
+        addFile(newDoc).then(() => getFileList(currentProject).then(files => dispatch(setFilesList(files))))
+        setNewFileName("")
+    }
+
+    return (
+        <div className="w-full border-t mt-2 border-gray-300">
+            <div className="flex flex-row gap-2 items-center justify-between pt-4 pb-2 w-full">
+                <div className="flex-grow flex flex-row gap-2 items-center font-semibold hover:text-gray-400 select-none"
+                    onClick={() => setCollapsed(!collapsed)}>
+                    <i className={collapsed ? "fas fa-chevron-right w-3" : "fas fa-chevron-down w-3"}></i>
+                    {args.name}
+                </div>
+                <div className="text-gray-400 hover:text-gray-600"
+                    onClick={() => setShowAddContext(true)}>
+                    <i className="fas fa-plus"></i>
+                </div>
+            </div>
+
+            {!collapsed && (
+                <div className="flex flex-col gap-2 w-full">
+                    {args.files.map((file) => {
+                        return (
+                            <div className="flex flex-row gap-1 select-none w-full items-center" key={file.path + file.name} >
+                                <div className="hover:text-gray-400 flex-grow truncate" onClick={() => args.onFileSelect(file)}>{file.name}</div>
+                                {/*<div className="text-gray-300 hover:text-gray-400">
+                                <i className="fas fa-pen"></i>
+                            </div>*/}
+                                <div className="text-gray-300 hover:text-gray-400"
+                                    onClick={() => args.onFileDelete(file)}>
+                                    <i className="fas fa-trash"></i>
+                                </div>
+                            </div>
+                        )
+                    })}
+                </div>
+            )}
+
+
+            <Context show={showAddContext} onClose={() => { setShowAddContext(false); setNewFileName("") }}>
+                <input className="outline-none w-60 border-b" type="text" value={newFileName} placeholder="File Name" onChange={(e) => setNewFileName(e.target.value)}></input>
+                <div className="select-none bg-mint text-white rounded py-1 px-2 w-32 hover:bg-opacity-60 active:bg-opacity-80 text-center"
+                    onClick={() => onAddFile()}>
+                    Add
+                    </div>
+            </Context>
+        </div>
+    )
+
 }
 
 const InnerNav = () => (
@@ -205,8 +321,6 @@ const SearchContext = (args: { show: boolean, onClose: () => void }) => {
 
     useEffect(() => {
         searchFiles(files, searchString).then(results => {
-            console.log(results)
-
             let searchRes = results
                 .filter(e => e.titleMatches > 0 || e.contentMatches > 0)
                 .sort((e1, e2) => e2.titleMatches - e1.titleMatches || e2.contentMatches - e1.contentMatches)
@@ -223,9 +337,9 @@ const SearchContext = (args: { show: boolean, onClose: () => void }) => {
             <div className="flex flex-col gap-2">
                 {searchResults.map(file => {
                     return (
-                        <div key={file.path + file.name} 
+                        <div key={file.path + file.name}
                             className="select-none w-full px-4 py-2 rounded bg-gray-100 hover:bg-gray-200"
-                            onClick={() => {dispatch(setOpenFile(file)); args.onClose(); setSearchString("")}}>
+                            onClick={() => { dispatch(setOpenFile(file)); args.onClose(); setSearchString("") }}>
                             {file.name}
                         </div>
                     )

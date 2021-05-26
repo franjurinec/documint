@@ -13,10 +13,6 @@ export type ExportSettings = {
 }
 
 export async function exportProject(settings: ExportSettings) {
-    console.log("Exporting project!")
-    console.log('Current directory: ' + process.cwd());
-    console.log(settings)
-
     if (settings.project === undefined) return
     
     let exportPath = settings.path

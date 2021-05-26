@@ -3,7 +3,7 @@ import { DocumentFile, Project } from "../types/types"
 
 type MaximizeWindowAction = { type: "SET_MAXIMIZED", payload: boolean }
 type SetFileListAction = { type: "SET_FILES_LIST", payload: DocumentFile[] }
-type SetOpenFileAction = { type: "SET_OPEN_FILE", payload: DocumentFile }
+type SetOpenFileAction = { type: "SET_OPEN_FILE", payload: DocumentFile|undefined }
 type SetProjectListAction = { type: "SET_PROJECTS_LIST", payload: Project[] }
 type SetOpenProjectAction = { type: "SET_OPEN_PROJECT", payload: Project|undefined }
 type AddProjectToListAction = { type: "ADD_PROJECT_TO_LIST", payload: Project }
@@ -20,7 +20,7 @@ export const setFilesList = (files: DocumentFile[]): Action => ({
     payload: files
 })
 
-export const setOpenFile = (fileName: DocumentFile): Action => ({
+export const setOpenFile = (fileName: DocumentFile | undefined): Action => ({
     type: "SET_OPEN_FILE",
     payload: fileName
 })

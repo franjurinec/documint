@@ -9,4 +9,5 @@ export type DocumentFile = {
     name: string
     project: Project,
     path: string
+    category: string | undefined
 }
