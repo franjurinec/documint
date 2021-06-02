@@ -1,4 +1,4 @@
-import { DocumentFile, Project } from "../types/types"
+import { DocumentFile, Project, RemoteFile, TimestampedContent } from "../types/types"
 
 export async function getToken(url: string, username: string, password: string) {
     let credentials = {
@@ -24,25 +24,30 @@ export async function getRemoteFileList(currentProject: Project) {
         return []
     }
 
-    let fileNames = await fetch(currentProject.path + '/doc/all', {
+    let files = await fetch(currentProject.path + '/doc/all', {
         headers: new Headers({
             'X-access-token': currentProject.token
         })
-    }).then(res => res.json()) as string[]
+    }).then(res => res.json()) as RemoteFile[]
 
-    return fileNames.map<DocumentFile>((fileName, index) => {
+    console.log(files)
+
+    return files.map<DocumentFile>(file => {
         return {
-            name: fileName,
+            name: file.name,
             project: currentProject,
-            category: undefined,
-            path: String(index)
+            category: file.category,
+            path: file.id
         }
     })
 }
 
-export async function readRemoteFile(file: DocumentFile) {
+export async function readRemoteFile(file: DocumentFile): Promise<TimestampedContent> {
     if (file.project.token === undefined) {
-        return "Failed to fetch remote file."
+        return {
+            content: "Failed to fetch remote file.",
+            readTimestamp: Date.now()
+        }
     }
 
     const res = await fetch(file.project.path + '/doc/' + file.path, {
@@ -50,7 +55,8 @@ export async function readRemoteFile(file: DocumentFile) {
             'X-access-token': file.project.token
         })
     })
-    return await res.text()
+
+    return await res.json() as TimestampedContent
 }
 
 export async function updateRemoteFile(file: DocumentFile, content: string) {
@@ -60,10 +66,13 @@ export async function updateRemoteFile(file: DocumentFile, content: string) {
 
     await fetch(file.project.path + '/doc/update/' + file.path, {
         method: 'PUT',
-        body: content,
         headers: new Headers({
-            'content-type': 'text/plain',
+            'content-type': 'application/json',
             'X-access-token': file.project.token
+        }),
+        body: JSON.stringify({
+            content: content,
+            readTimestamp: file.lastReadTimestamp
         })
     })
 }
@@ -75,7 +84,6 @@ export async function deleteRemoteFile(file: DocumentFile) {
 
     await fetch(file.project.path + '/doc/delete/' + file.path, {
         headers: new Headers({
-            'content-type': 'text/plain',
             'X-access-token': file.project.token
         })
     })
@@ -88,13 +96,13 @@ export async function addRemoteFile(file: DocumentFile) {
         return false
     }
 
-    await fetch(file.project.path + '/doc/create/' + encodeURI(file.name), {
+    await fetch(file.project.path + '/doc/create/', {
         method: 'POST',
-        body: "",
         headers: new Headers({
-            'content-type': 'text/plain',
+            'content-type': 'application/json',
             'X-access-token': file.project.token
-        })
+        }),
+        body: JSON.stringify({name: file.name, category: file.category})
     })
 
     return false

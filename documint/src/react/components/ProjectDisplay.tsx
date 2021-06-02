@@ -19,7 +19,7 @@ export const ProjectDisplay = () => {
     useEffect(() => {
         if (currentFile !== undefined) {
             setEdit(false)
-            readMarkdownFileAsHTML(currentFile).then(htmlContent => setContent(htmlContent))
+            readMarkdownFileAsHTML(currentFile).then(timestampedHtmlContent => setContent(timestampedHtmlContent.content))
         } else {
             setContent("No files.")
         }
@@ -27,21 +27,21 @@ export const ProjectDisplay = () => {
 
     const onEdit = () => {
         if (!currentFile) return
-        readMarkdownFile(currentFile).then(mdContent => setContent(mdContent))
+        readMarkdownFile(currentFile).then(timestampedMdContent => setContent(timestampedMdContent.content))
         setEdit(true)
     }
 
     const onSave = () => {
         if (!currentFile) return
         saveMarkdownFile(currentFile, content).then(() => {
-            readMarkdownFileAsHTML(currentFile).then(htmlContent => setContent(htmlContent))
+            readMarkdownFileAsHTML(currentFile).then(timestampedHtmlContent => setContent(timestampedHtmlContent.content))
         })
         setEdit(false)
     }
 
     const onCancel = () => {
         if (!currentFile) return
-        readMarkdownFileAsHTML(currentFile).then(htmlContent => setContent(htmlContent))
+        readMarkdownFileAsHTML(currentFile).then(timestampedHtmlContent => setContent(timestampedHtmlContent.content))
         setEdit(false)
     }
 

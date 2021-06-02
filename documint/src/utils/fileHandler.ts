@@ -1,15 +1,18 @@
-import { DocumentFile, Project } from '../types/types'
+import { DocumentFile, Project, TimestampedContent } from '../types/types'
 import { promises as fs, existsSync } from 'fs'
 import { htmlFromMD } from './markdownHandler'
 import { userDataPath } from './pathHandler'
 import path from 'path'
 import { addRemoteFile, deleteRemoteFile, getRemoteFileList, readRemoteFile, updateRemoteFile } from './remoteHandler'
 
-export async function readMarkdownFile(file: DocumentFile) {
+export async function readMarkdownFile(file: DocumentFile): Promise<TimestampedContent> {
     if (file.project.type === 'REMOTE') {
         return await readRemoteFile(file)
     } else {
-        return fs.readFile(file.path, 'utf-8')
+        return {
+            content: await fs.readFile(file.path, 'utf-8'),
+            readTimestamp: Date.now()
+        }
     }
 }
 
@@ -21,8 +24,13 @@ export async function saveMarkdownFile(file: DocumentFile, content: string) {
     }
 }
 
-export async function readMarkdownFileAsHTML(file: DocumentFile) {
-    return readMarkdownFile(file).then(fileContent => htmlFromMD(fileContent))
+export async function readMarkdownFileAsHTML(file: DocumentFile): Promise<TimestampedContent> {
+    return readMarkdownFile(file).then(fileContent => {
+        return {
+            content: htmlFromMD(fileContent.content),
+            readTimestamp: fileContent.readTimestamp
+        }
+    })
 }
 
 export async function getFileList(currentProject: Project | undefined) {

@@ -78,7 +78,7 @@ export async function exportProject(settings: ExportSettings) {
             pageTitle: fileName,
             uncategorisedFileNames: uncategorisedFileNames,
             categoryFileNames: Array.from(categoryFileNames, ([category, fileNames]) => ({ category, fileNames })),
-            content: await readMarkdownFileAsHTML(file)
+            content: (await readMarkdownFileAsHTML(file)).content
         })
         
         await fs.writeFile(path.join(exportPath, 'docs', fileName + '.html'), renderedHTML, 'utf-8')

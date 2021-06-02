@@ -39,6 +39,6 @@ export async function searchFiles(files: DocumentFile[], searchString: string) {
 export async function generateFileContents(files: DocumentFile[]) {
     return await Promise.all(files.map(async file => { return {
         file: file,
-        content: await readMarkdownFile(file).then(content => content.toLowerCase())
+        content: await readMarkdownFile(file).then(timestampedContent => timestampedContent.content.toLowerCase())
     }}))
 }
