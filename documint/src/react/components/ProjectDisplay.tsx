@@ -141,8 +141,8 @@ const FileNav = () => {
             name: newFileName,
             project: currentProject,
             category: newFileCategory === "" ? undefined : newFileCategory,
-            path: newFileCategory === "" 
-                ? path.join(currentProject.path, newFileName + '.md') 
+            path: newFileCategory === ""
+                ? path.join(currentProject.path, newFileName + '.md')
                 : path.join(currentProject.path, newFileCategory, newFileName + '.md')
         }
 
@@ -210,12 +210,6 @@ const FileNav = () => {
                 )
             })}
 
-            {Array.from(categoryFiles, ([category, files]) => {
-                return (
-                    <CategoryItem files={files} name={category} onFileDelete={onFileDelete} onFileSelect={onFileSelect} />
-                )
-            })}
-
             <Context show={showAddContext} onClose={() => { setShowAddContext(false); setNewFileName(""); setNewFileCategory("") }}>
                 <input className="outline-none w-60 border-b" type="text" value={newFileName} placeholder="File Name" onChange={(e) => setNewFileName(e.target.value)}></input>
                 <input className="outline-none w-60 border-b" type="text" value={newFileCategory} placeholder="Category (optional)" onChange={(e) => setNewFileCategory(e.target.value)}></input>
@@ -226,6 +220,12 @@ const FileNav = () => {
             </Context>
 
             <SearchContext show={showSearchContext} onClose={() => setShowSearchContext(false)} />
+
+            {Array.from(categoryFiles, ([category, files]) => {
+                return (
+                    <CategoryItem files={files} name={category} onFileDelete={onFileDelete} onFileSelect={onFileSelect} />
+                )
+            })}
         </div>
     )
 }
@@ -239,7 +239,7 @@ type CategoryArgType = {
 
 const CategoryItem = (args: CategoryArgType) => {
     const [collapsed, setCollapsed] = useState<boolean>(false)
-    
+
     const dispatch = useDispatch()
     const currentProject = useSelector<GlobalState, GlobalState["currentProject"]>(state => state.currentProject)
 
@@ -274,6 +274,14 @@ const CategoryItem = (args: CategoryArgType) => {
                 </div>
             </div>
 
+            <Context show={showAddContext} onClose={() => { setShowAddContext(false); setNewFileName("") }}>
+                <input className="outline-none w-60 border-b" type="text" value={newFileName} placeholder="File Name" onChange={(e) => setNewFileName(e.target.value)}></input>
+                <div className="select-none bg-mint text-white rounded py-1 px-2 w-32 hover:bg-opacity-60 active:bg-opacity-80 text-center"
+                    onClick={() => onAddFile()}>
+                    Add
+                    </div>
+            </Context>
+
             {!collapsed && (
                 <div className="flex flex-col gap-2 w-full">
                     {args.files.map((file) => {
@@ -292,15 +300,6 @@ const CategoryItem = (args: CategoryArgType) => {
                     })}
                 </div>
             )}
-
-
-            <Context show={showAddContext} onClose={() => { setShowAddContext(false); setNewFileName("") }}>
-                <input className="outline-none w-60 border-b" type="text" value={newFileName} placeholder="File Name" onChange={(e) => setNewFileName(e.target.value)}></input>
-                <div className="select-none bg-mint text-white rounded py-1 px-2 w-32 hover:bg-opacity-60 active:bg-opacity-80 text-center"
-                    onClick={() => onAddFile()}>
-                    Add
-                    </div>
-            </Context>
         </div>
     )
 

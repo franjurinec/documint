@@ -1,5 +1,3 @@
-import { promises as fs } from 'fs'
-import { PureComponent } from 'react';
 import { DocumentFile } from '../types/types';
 import { readMarkdownFile } from './fileHandler';
 

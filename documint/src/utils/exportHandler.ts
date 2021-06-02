@@ -22,7 +22,21 @@ export async function exportProject(settings: ExportSettings) {
     let katexFontPath = path.join(exportPath, 'static', 'fonts', 'katex-fonts')
 
     let files = settings.files
-    let fileNames = files.map(file => file.name)
+
+    let uncategorisedFileNames: string[] = []
+    let categoryFileNames = new Map<string, string[]>()
+    files.forEach(file => {
+        if (file.category === undefined) {
+            uncategorisedFileNames.push(file.name)
+        } else {
+            if (categoryFileNames.has(file.category)) {
+                categoryFileNames.get(file.category)?.push(file.name)
+            } else {
+                categoryFileNames.set(file.category, [])
+                categoryFileNames.get(file.category)?.push(file.name)
+            }
+        }
+    })
     
     const renderFunction = pug.compileFile("static/export-chunks/page.pug")
 
@@ -62,7 +76,8 @@ export async function exportProject(settings: ExportSettings) {
         const renderedHTML = renderFunction({
             projectTitle: settings.title,
             pageTitle: fileName,
-            fileNames: fileNames,
+            uncategorisedFileNames: uncategorisedFileNames,
+            categoryFileNames: Array.from(categoryFileNames, ([category, fileNames]) => ({ category, fileNames })),
             content: await readMarkdownFileAsHTML(file)
         })
         
