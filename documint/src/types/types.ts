@@ -9,8 +9,7 @@ export type DocumentFile = {
     name: string,
     project: Project,
     path: string,
-    category: string | undefined,
-    lastReadTimestamp?: number
+    category: string | undefined
 }
 
 export type RemoteFile = {

@@ -59,7 +59,7 @@ export async function readRemoteFile(file: DocumentFile): Promise<TimestampedCon
     return await res.json() as TimestampedContent
 }
 
-export async function updateRemoteFile(file: DocumentFile, content: string) {
+export async function updateRemoteFile(file: DocumentFile, content: string, readTimestamp: number) {
     if (file.project.token === undefined) {
         return false
     }
@@ -72,7 +72,7 @@ export async function updateRemoteFile(file: DocumentFile, content: string) {
         }),
         body: JSON.stringify({
             content: content,
-            readTimestamp: file.lastReadTimestamp
+            readTimestamp: readTimestamp
         })
     })
 }

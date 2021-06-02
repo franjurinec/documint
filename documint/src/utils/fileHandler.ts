@@ -16,9 +16,9 @@ export async function readMarkdownFile(file: DocumentFile): Promise<TimestampedC
     }
 }
 
-export async function saveMarkdownFile(file: DocumentFile, content: string) {
+export async function saveMarkdownFile(file: DocumentFile, content: string, readTimestamp: number) {
     if (file.project.type === 'REMOTE') {
-        return updateRemoteFile(file, content)
+        return updateRemoteFile(file, content, readTimestamp)
     } else {
         return fs.writeFile(file.path, content);
     }

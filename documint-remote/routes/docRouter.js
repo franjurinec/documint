@@ -17,7 +17,7 @@ router.post('/create', async (req, res) => {
 router.put('/update/:id', async (req, res) => {
     await fileHandler.updateFile(req.params.id, req.body.content, req.body.readTimestamp, req.user)
         .then(() => res.json({success: true}))
-        //.catch(() => res.json({success: false}))
+        .catch(() => res.json({success: false}))
 })
 
 router.get('/delete/:id', async (req, res) => {
