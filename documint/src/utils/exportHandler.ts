@@ -2,7 +2,7 @@ import { DocumentFile, Project } from "../types/types";
 import { promises as fs, existsSync } from 'fs';
 import pug from 'pug';
 import path from 'path';
-import { readMarkdownFileAsHTML } from "./fileHandler";
+import { readMarkdownFile, readMarkdownFileAsHTML } from "./fileHandler";
 
 export type ExportSettings = {
     project: Project | undefined,
@@ -69,6 +69,16 @@ export async function exportProject(settings: ExportSettings) {
     await Promise.all(katexFontFiles.map(async file => {
         await fs.copyFile(path.join('static', 'fonts', 'katex-fonts', file), path.join(katexFontPath, file))
     }))
+
+    // Search
+    let searchMap = await Promise.all(files.map(async file => {
+        return {
+            name: file.name,
+            content: (await readMarkdownFile(file)).content.toLowerCase()
+        }
+    }))
+    await fs.writeFile(path.join(exportPath, 'searchMap.js'), 'searchMap=' + JSON.stringify(searchMap) +';', 'utf-8')
+    await fs.copyFile('static/export-chunks/searchScript.js', path.join(exportPath, 'searchScript.js'))
 
     await Promise.all(files.map(async file => {
         let fileName = file.name

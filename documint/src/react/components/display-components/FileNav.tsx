@@ -108,20 +108,6 @@ export const FileNav = () => {
                     <i className="fas fa-plus"></i>
                 </div>
             </div>
-            {uncategorisedFiles.map((file) => {
-                return (
-                    <div className="flex flex-row gap-1 select-none w-full items-center" key={file.path + file.name} >
-                        <div className="hover:text-gray-400 flex-grow truncate" onClick={() => onFileSelect(file)}>{file.name}</div>
-                        {/*<div className="text-gray-300 hover:text-gray-400">
-                            <i className="fas fa-pen"></i>
-                        </div>*/}
-                        <div className="text-gray-300 hover:text-gray-400"
-                            onClick={() => onFileDelete(file)}>
-                            <i className="fas fa-trash"></i>
-                        </div>
-                    </div>
-                )
-            })}
 
             <Context show={showAddContext} onClose={() => { setShowAddContext(false); setNewFileName(""); setNewFileCategory("") }}>
                 <input className="outline-none w-60 border-b" type="text" value={newFileName} placeholder="File Name" onChange={(e) => setNewFileName(e.target.value)}></input>
@@ -134,9 +120,24 @@ export const FileNav = () => {
 
             <SearchContext show={showSearchContext} onClose={() => setShowSearchContext(false)} />
 
+            {uncategorisedFiles.map((file) => {
+                return (
+                    <div className="flex flex-row gap-1 select-none w-full items-center" key={file.path} >
+                        <div className="hover:text-gray-400 flex-grow truncate" onClick={() => onFileSelect(file)}>{file.name}</div>
+                        {/*<div className="text-gray-300 hover:text-gray-400">
+                            <i className="fas fa-pen"></i>
+                        </div>*/}
+                        <div className="text-gray-300 hover:text-gray-400"
+                            onClick={() => onFileDelete(file)}>
+                            <i className="fas fa-trash"></i>
+                        </div>
+                    </div>
+                )
+            })}           
+
             {Array.from(categoryFiles, ([category, files]) => {
                 return (
-                    <CategoryItem files={files} name={category} onFileDelete={onFileDelete} onFileSelect={onFileSelect} />
+                    <CategoryItem key={category} files={files} name={category} onFileDelete={onFileDelete} onFileSelect={onFileSelect} />
                 )
             })}
         </div>
@@ -199,7 +200,7 @@ const CategoryItem = (args: CategoryArgType) => {
                 <div className="flex flex-col gap-2 w-full">
                     {args.files.map((file) => {
                         return (
-                            <div className="flex flex-row gap-1 select-none w-full items-center" key={file.path + file.name} >
+                            <div className="flex flex-row gap-1 select-none w-full items-center" key={file.path} >
                                 <div className="hover:text-gray-400 flex-grow truncate" onClick={() => args.onFileSelect(file)}>{file.name}</div>
                                 {/*<div className="text-gray-300 hover:text-gray-400">
                                 <i className="fas fa-pen"></i>
