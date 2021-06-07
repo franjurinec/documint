@@ -15,7 +15,22 @@
   "build": {
     "appId": "com.franjurinec.documint",
     "win": {
-      "target": "portable"
+      "target": [
+        {
+          "target": "msi"
+        },
+        {
+          "target": "portable"
+        }
+      ]
+      
+    },
+    "mac": {
+      "target": "default",
+      "category": "public.app-category.productivity"
+    },
+    "linux": {
+      "target": "deb"
     },
     "files": [
       "./app/**",
