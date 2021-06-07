@@ -9,3 +9,12 @@ export async function getDirectoryDialog() {
         return undefined
     }
 }
+
+export async function getFileDialog(filters: Electron.FileFilter[]) {
+    let result = await dialog.showOpenDialog({properties: ['openFile'], filters: filters})
+    if (!result.canceled && result.filePaths.length > 0) {
+        return result.filePaths[0]
+    } else {
+        return undefined
+    }
+}

@@ -7,7 +7,7 @@ import { readMarkdownFile, readMarkdownFileAsHTML } from "./fileHandler";
 export type ExportSettings = {
     project: Project | undefined,
     files: DocumentFile[],
-    color: string,
+    customStyle: string,
     title: string,
     path: string
 }
@@ -59,6 +59,11 @@ export async function exportProject(settings: ExportSettings) {
     await Promise.all(styleFiles.map(async file => {
         await fs.copyFile(path.join('styles', file), path.join(stylePath, file))
     }))
+    if (settings.customStyle !== "") {
+        await fs.copyFile(settings.customStyle, path.join(stylePath, 'customStyle.css'))
+    } else {
+        await fs.writeFile(path.join(stylePath, 'customStyle.css'), '', 'utf-8')
+    }
 
     let fontFiles = await fs.readdir(path.join('static', 'fonts', 'fa-webfonts'))
     await Promise.all(fontFiles.map(async file => {
