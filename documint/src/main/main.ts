@@ -1,4 +1,5 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
+import { promises as fs } from 'fs'
 import * as path from 'path'
 
 // Minimal ELectron setup
@@ -21,7 +22,7 @@ function createWindow () {
 
   win.maximize()
   win.loadFile(path.join(app.getAppPath(), 'static/index.html'))
-  win.webContents.openDevTools()
+  // win.webContents.openDevTools()
 }
 
 app.whenReady().then(createWindow)

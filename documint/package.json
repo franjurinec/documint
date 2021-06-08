@@ -23,7 +23,6 @@
           "target": "portable"
         }
       ]
-      
     },
     "mac": {
       "target": "default",

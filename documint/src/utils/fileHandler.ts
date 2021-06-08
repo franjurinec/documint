@@ -85,6 +85,10 @@ export async function getFileList(currentProject: Project | undefined) {
 }
 
 export async function getProjectList(): Promise<Project[]> {
+    if (!existsSync(path.join(userDataPath, 'projects.json'))) {
+        await fs.writeFile(path.join(userDataPath, 'projects.json'), JSON.stringify([]), 'utf-8')
+    }
+
     let projectsString = await fs.readFile(path.join(userDataPath, 'projects.json'), 'utf-8')
     let projects: Project[] = JSON.parse(projectsString)
     if (projects)
@@ -94,6 +98,10 @@ export async function getProjectList(): Promise<Project[]> {
 }
 
 export async function appendProjectsFile(project: Project) {
+    if (!existsSync(path.join(userDataPath, 'projects.json'))) {
+        await fs.writeFile(path.join(userDataPath, 'projects.json'), JSON.stringify([]))
+    }
+
     let projectsString = await fs.readFile(path.join(userDataPath, 'projects.json'), 'utf-8')
     let projects: Project[] = JSON.parse(projectsString)
 
@@ -110,6 +118,10 @@ export async function appendProjectsFile(project: Project) {
 }
 
 export async function removeFromProjectsFile(project: Project) {
+    if (!existsSync(path.join(userDataPath, 'projects.json'))) {
+        await fs.writeFile(path.join(userDataPath, 'projects.json'), JSON.stringify([]))
+    }
+
     let projectsString = await fs.readFile(path.join(userDataPath, 'projects.json'), 'utf-8')
     let projects: Project[] = JSON.parse(projectsString)
 
