@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { setFilesList, setOpenFile, setOpenProject } from "../../../redux/actions"
 import { GlobalState } from "../../../redux/reducer"
 import { DocumentFile } from "../../../types/types"
-import { addFile, deleteFile, getFileList } from "../../../utils/fileHandler"
+import { addFile, deleteFile, getFileList } from "../../../utils/fileService"
 import { Context } from "../common/Context"
 import { SearchContext } from "./SearchContext"
 

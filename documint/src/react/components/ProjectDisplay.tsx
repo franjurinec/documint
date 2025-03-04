@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { setFilesList } from '../../redux/actions';
 import { GlobalState } from '../../redux/reducer';
-import { getFileList, readMarkdownFile, readMarkdownFileAsHTML, saveMarkdownFile } from '../../utils/fileHandler';
-import { htmlFromMD } from '../../utils/markdownHandler';
+import { getFileList, readMarkdownFile, readMarkdownFileAsHTML, saveMarkdownFile } from '../../utils/fileService';
+import { htmlFromMD } from '../../utils/markdownService';
 import { FileNav } from './display-components/FileNav';
 
 export const ProjectDisplay = () => {

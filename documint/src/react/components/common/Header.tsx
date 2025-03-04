@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { GlobalState } from '../../../redux/reducer';
 import { setWindowMaximized } from '../../../redux/actions'
-import * as windowHandler from '../../../utils/windowHandler';
+import * as windowHandler from '../../../utils/windowService';
 import { ExportModal } from '../display-components/ExportModal';
 
 export const Header = () => (

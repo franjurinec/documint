@@ -1,9 +1,9 @@
 import { DocumentFile, Project, TimestampedContent } from '../types/types'
 import { promises as fs, existsSync } from 'fs'
-import { htmlFromMD } from './markdownHandler'
-import { userDataPath } from './pathHandler'
+import { htmlFromMD } from './markdownService'
+import { userDataPath } from './pathService'
 import path from 'path'
-import { addRemoteFile, deleteRemoteFile, getRemoteFileList, readRemoteFile, updateRemoteFile } from './remoteHandler'
+import { addRemoteFile, deleteRemoteFile, getRemoteFileList, readRemoteFile, updateRemoteFile } from './remoteService'
 
 export async function readMarkdownFile(file: DocumentFile): Promise<TimestampedContent> {
     if (file.project.type === 'REMOTE') {

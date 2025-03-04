@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { setOpenFile } from "../../../redux/actions"
 import { GlobalState } from "../../../redux/reducer"
 import { DocumentFile } from "../../../types/types"
-import { searchFiles } from "../../../utils/searchHandler"
+import { searchFiles } from "../../../utils/searchService"
 import { Context } from "../common/Context"
 
 export const SearchContext = (args: { show: boolean, onClose: () => void }) => {

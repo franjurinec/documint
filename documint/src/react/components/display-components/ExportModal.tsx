@@ -2,8 +2,8 @@ import React, { useEffect } from "react"
 import { useState } from "react"
 import { useSelector } from "react-redux"
 import { GlobalState } from "../../../redux/reducer"
-import { getDirectoryDialog, getFileDialog } from "../../../utils/dialogHandler"
-import { exportProject, ExportSettings } from "../../../utils/exportHandler"
+import { getDirectoryDialog, getFileDialog } from "../../../utils/dialogService"
+import { exportProject, ExportSettings } from "../../../utils/exportService"
 import { Modal } from "../common/Modal"
 
 export const ExportModal = (args: {show: boolean, onClose: () => void}) => {

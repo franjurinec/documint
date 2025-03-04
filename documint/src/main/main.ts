@@ -1,5 +1,4 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
-import { promises as fs } from 'fs'
 import * as path from 'path'
 
 // Minimal ELectron setup

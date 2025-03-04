@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Project } from "../../../types/types"
-import { getDirectoryDialog } from "../../../utils/dialogHandler"
+import { getDirectoryDialog } from "../../../utils/dialogService"
 import { Modal } from "../common/Modal"
 
 export const AddProjectModal = (args: { show: boolean, onClose: () => void, onAdd: (project: Project) => void }) => {

@@ -1,5 +1,5 @@
 import { DocumentFile } from '../types/types';
-import { readMarkdownFile } from './fileHandler';
+import { readMarkdownFile } from './fileService';
 
 let fileContents: {file: DocumentFile, content: string}[] | undefined = undefined
 let timeoutHandle: NodeJS.Timeout | undefined = undefined

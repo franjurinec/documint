@@ -2,7 +2,7 @@ import { DocumentFile, Project } from "../types/types";
 import { promises as fs, existsSync } from 'fs';
 import pug from 'pug';
 import path from 'path';
-import { readMarkdownFile, readMarkdownFileAsHTML } from "./fileHandler";
+import { readMarkdownFile, readMarkdownFileAsHTML } from "./fileService";
 
 export type ExportSettings = {
     project: Project | undefined,
